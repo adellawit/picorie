@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Picorie Photobooth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#f6f2eb}
+  #viewport{position:fixed;inset:0;overflow:hidden;
+    background:#f6f2eb url(asset/bg_onboarding.png) left bottom/cover no-repeat;
+    font-family:'Baloo 2',sans-serif;color:#782b37}
+  #burst{position:absolute;right:0;top:0;width:379px;transform-origin:top right}
+  #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:center center}
+  #stage img{position:absolute;display:block;max-width:none}
+  .search-text{position:absolute;left:655px;top:124px;height:42px;line-height:42px;font-weight:700;font-size:18px;color:#782b37;white-space:nowrap}
+  .folder{position:absolute;width:144px;text-align:center}
+  #stage .folder img{position:static;width:144px;height:98px}
+  .folder span{display:block;margin-top:10px;font-weight:700;font-size:16px;color:#782b37;line-height:1}
+  #start{position:absolute;left:904px;top:412px;width:314px;cursor:pointer;border:0;background:none;padding:0;transition:transform .12s}
+  #stage #start img{position:static;width:314px}
+  #start:hover{transform:translateY(-3px)}
+  #start:active{transform:translateY(2px)}
+</style>
+</head>
+<body>
+<div id="viewport">
+  <img id="burst" src="asset/ic_comic_star.png" alt="">
+  <main id="stage">
+    <img src="asset/bg_pink.png" style="left:186px;top:85px;width:1548px">
+    <img src="asset/bg_white_onboarding.png" style="left:209px;top:183px;width:1502px">
+    <img src="asset/bg_yellow_navbar.png" style="left:209px;top:106px;width:1502px;height:78px" alt="">
+    <img src="asset/ic_indicator.png" style="left:249px;top:132px;width:112px">
+    <img src="asset/ic_search_text.png" style="left:639px;top:124px;width:710px">
+    <div class="search-text">Ready to make new memories?</div>
+    <img src="asset/ic_reddie_head.png" style="left:1626px;top:127px;width:43px">
+
+    <div class="folder" style="left:279px;top:253px"><img src="asset/ic_folder_pink.png" alt=""><span>reddie</span></div>
+    <div class="folder" style="left:477px;top:253px"><img src="asset/ic_folder_beige.png" alt=""><span>reddie</span></div>
+    <div class="folder" style="left:279px;top:431px"><img src="asset/ic_folder_maroon.png" alt=""><span>reddie</span></div>
+    <div class="folder" style="left:477px;top:431px"><img src="asset/ic_folder_yellow.png" alt=""><span>reddie</span></div>
+
+    <img src="asset/ic_logo.png" style="left:281px;top:583px;width:620px" alt="Welcome to Picorie">
+    <div style="position:absolute;left:216px;top:190px;width:1488px;height:778px;overflow:hidden"><img src="asset/ic_reddie_fly.png" style="left:839px;top:183px;width:689px;height:618px" alt=""></div>
+    <img src="asset/ic_reddie_head_fly.png" style="left:1159px;top:198px;width:740px;height:744px" alt="Reddie">
+    <button id="start"><img src="asset/btn_start_photo.png" alt="Start Photobooth"></button>
+  </main>
+</div>
+<script>
+  function fit(){
+    var s=Math.max(innerWidth/1920,innerHeight/1080);
+    var c=Math.min(innerWidth/1920,innerHeight/1080);
+    document.getElementById('stage').style.transform='scale('+c+')';
+    document.getElementById('burst').style.transform='scale('+s+')';
+  }
+  addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

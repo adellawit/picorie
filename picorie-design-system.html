@@ -1,0 +1,1007 @@
+<title>Picorie Design System</title>
+<meta name="description" content="Design system sheet Picorie: foundation (warna, tipografi, spacing, radius, stroke, shadow, ikon, motif), komponen dengan semua state, dan contoh layout.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Lilita+One&family=Poppins:wght@400;500;700&display=swap">
+<style>
+/* ============ TOKENS (Figma: Photobooth-Reddie / vibecode) ============ */
+:root{
+  color-scheme: light;
+  --maroon-700:#782B37; --maroon-800:#60222C; --maroon-950:#2A0D12;
+  --rose-500:#C06878; --rose-500b:#C26A78; --dusty-400:#B99898; --blush-300:#F6B9C0;
+  --yellow-100:#FFE6A4; --yellow-300:#FCC86A; --yellow-400:#FECE4E; --yellow-600:#EDAC00; --yellow-700:#C98F00;
+  --amber-800:#8A5A00; --coral-500:#EB5C5D;
+  --canvas:#F8F4ED; --white:#FFFFFF; --neutral-50:#FAFAFA; --placeholder:#F2F2F7; --hairline:#D2D2D7;
+  --slate-200:#E2E8F0; --neutral-300:#D4D4D4; --camera-off:#CCCCCC;
+  --slate-900:#0F172A; --slate-500:#64748B; --slate-400:#94A3B8;
+  --dot-close:#EC4B4B; --dot-min:#E8B21C; --dot-max:#34B556;
+  --reddie:#E23B3B;
+
+  --ink: var(--maroon-700);
+  --ink-soft:#6B4A50;           /* body copy on this sheet (maroon-tinted neutral) */
+  --ink-line: rgba(120,43,55,.18);
+
+  --font-display:"Block Berthold","Lilita One","Baloo 2",system-ui,sans-serif;
+  --font-ui:"Baloo 2","Nunito",system-ui,sans-serif;
+  --font-content:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --text-5:18px; --text-7:22px; --text-8:24px;
+
+  --space-1:4px; --space-1-5:6px; --space-2:8px; --space-2-5:10px; --space-3:12px; --space-3-5:14px;
+  --space-4:16px; --space-5:20px; --space-6:24px; --space-7:28px; --space-9:35px; --space-10:40px; --space-16:64px;
+
+  --radius-2xs:2px; --radius-xs:4px; --radius-sm:5px; --radius-md:8px; --radius-lg:16px; --radius-tab:18px;
+  --radius-xl:20px; --radius-2xl:28px; --radius-dialog:31px; --radius-window:54px; --radius-stage:64px; --radius-pill:999px;
+
+  --shadow-button:0 5px 0 var(--yellow-700), 0 10px 18px rgba(60,10,10,.2);
+  --shadow-sticker:4px 4px 0 var(--maroon-700);
+  --shadow-chip:3px 2px 0 var(--maroon-700);
+  --shadow-mini:2px 2px 0 #000;
+  --shadow-soft:0 4px 5px rgba(0,0,0,.04);
+
+  --outline-white: 0 2px 0 var(--maroon-700), 2px 0 0 var(--maroon-700), 0 -2px 0 var(--maroon-700), -2px 0 0 var(--maroon-700),
+                   1.5px 1.5px 0 var(--maroon-700), -1.5px 1.5px 0 var(--maroon-700), 1.5px -1.5px 0 var(--maroon-700), -1.5px -1.5px 0 var(--maroon-700);
+
+  --win-r: clamp(24px, 4vw, 54px);
+}
+
+*{box-sizing:border-box}
+body{background:var(--canvas);color:var(--ink-soft);font:400 15px/1.6 var(--font-content);-webkit-font-smoothing:antialiased}
+.page{overflow-x:clip;padding-inline:clamp(16px,4vw,56px);padding-block:32px 96px;max-width:1440px;margin-inline:auto;position:relative}
+h1,h2,h3,h4{margin:0;color:var(--ink);text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+code,.mono{font-family:ui-monospace,"SF Mono","Cascadia Code",Consolas,monospace;font-size:.86em}
+:focus-visible{outline:3px solid var(--maroon-700);outline-offset:4px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ============ DECOR ============ */
+.halftone{background-image:radial-gradient(circle, rgba(246,185,192,.85) 34%, transparent 37%);background-size:16px 16px}
+.burst{position:absolute;pointer-events:none;z-index:0}
+.burst polygon{fill:var(--blush-300)}
+.rough{position:relative}
+.rough::after{content:"";position:absolute;inset:-3px;border:2px solid rgba(120,43,55,.45);border-radius:inherit;filter:url(#rough);pointer-events:none}
+
+/* ============ WINDOW ============ */
+.window{position:relative;z-index:1;display:flex;flex-direction:column}
+.titlebar{background:var(--yellow-400);border:5px solid var(--ink);border-radius:var(--win-r) var(--win-r) 0 0;min-height:73px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(16px,2.5vw,35px)}
+.titlebar.flat-left{border-top-left-radius:0}
+.winbody{background:var(--white);border:5px solid var(--ink);border-top:0;border-radius:0 0 var(--win-r) var(--win-r);padding:clamp(20px,4vw,48px);position:relative;overflow:clip}
+.lights{display:flex;gap:9px;flex:none}
+.lights i{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--ink);display:block;position:relative}
+.lights i:nth-child(1){background:var(--dot-close)} .lights i:nth-child(2){background:var(--dot-min)} .lights i:nth-child(3){background:var(--dot-max)}
+.lights:hover i::after,.lights[data-state=hover] i::after{position:absolute;inset:0;display:grid;place-items:center;font:800 12px/1 var(--font-ui);color:var(--ink)}
+.lights:hover i:nth-child(1)::after,.lights[data-state=hover] i:nth-child(1)::after{content:"×"}
+.lights:hover i:nth-child(2)::after,.lights[data-state=hover] i:nth-child(2)::after{content:"–"}
+.lights:hover i:nth-child(3)::after,.lights[data-state=hover] i:nth-child(3)::after{content:"+"}
+.navicons{display:flex;gap:15px;align-items:center;color:var(--ink)}
+.avatar{width:43px;height:36px;flex:none}
+
+/* ============ ADDRESS PILL ============ */
+.pill{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--white);border:2px solid var(--ink);border-radius:var(--radius-xl);
+  padding:8px 16px;font:700 var(--text-5)/1.25 var(--font-ui);color:var(--ink);width:min(560px,100%);min-width:0;transition:box-shadow .15s, background .15s}
+.pill span,.pill input{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill input{border:0;background:transparent;font:inherit;color:inherit;flex:1;outline:none;padding:0}
+.pill input::placeholder{color:rgba(120,43,55,.55)}
+.pill svg{flex:none;width:24px;height:24px}
+.pill:hover,.pill[data-state=hover]{box-shadow:var(--shadow-chip)}
+.pill:focus-within,.pill[data-state=active]{background:var(--yellow-100);box-shadow:var(--shadow-sticker)}
+.pill[data-state=disabled]{background:#F4EFEA;color:#B79AA0;box-shadow:none;border-color:#CDB5B9}
+
+/* ============ BUTTON (primary 3D) ============ */
+.btn{appearance:none;display:inline-grid;place-items:center;text-decoration:none;cursor:pointer;
+  font:700 var(--text-7)/1 var(--font-ui);color:var(--ink);background:var(--yellow-400);border:8px solid var(--yellow-600);border-radius:var(--radius-pill);
+  height:61px;min-width:min(240px,100%);padding:0 36px;box-shadow:var(--shadow-button);transition:transform .12s ease, box-shadow .12s ease, background .12s ease}
+.btn-lg{height:80px;font-size:var(--text-8);min-width:min(280px,100%)}
+.btn-block{width:100%}
+.btn:hover,.btn[data-state=hover]{transform:translateY(-2px);background:#FFD866;box-shadow:0 7px 0 var(--yellow-700),0 14px 20px rgba(60,10,10,.22)}
+.btn:active,.btn[data-state=active]{transform:translateY(5px);background:#F5C43A;box-shadow:0 0 0 var(--yellow-700),0 2px 4px rgba(60,10,10,.15)}
+.btn:disabled,.btn:disabled:hover,.btn:disabled:active,.btn[data-state=disabled]{background:#F3E6C3;border-color:#E6D5A6;color:#B79AA0;box-shadow:none;transform:none;cursor:not-allowed}
+
+/* ============ ICON BUTTON ============ */
+.ibtn{appearance:none;border:0;background:transparent;color:var(--ink);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;cursor:pointer;transition:background .12s, transform .12s}
+.ibtn svg{width:26px;height:26px}
+.ibtn:hover,.ibtn[data-state=hover]{background:var(--yellow-100)}
+.ibtn:active,.ibtn[data-state=active]{background:var(--yellow-600);transform:scale(.92)}
+.ibtn:disabled,.ibtn[data-state=disabled]{opacity:.35;background:transparent;transform:none;cursor:not-allowed}
+.titlebar .ibtn:hover{background:var(--yellow-100)}
+
+/* ============ TABS ============ */
+.tabs{display:flex;align-items:flex-end;padding-left:0;margin-bottom:-5px;position:relative;z-index:2;overflow-x:auto;scrollbar-width:none;padding-top:4px}
+.tab{flex:none;height:60px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 26px 0 30px;border:5px solid var(--ink);border-radius:var(--radius-tab) var(--radius-tab) 0 0;
+  background:var(--yellow-300);margin-right:-24px;position:relative;font:700 var(--text-5)/1 var(--font-ui);letter-spacing:1px;color:#fff;text-shadow:var(--outline-white);
+  text-decoration:none;cursor:pointer;transition:transform .12s, background .12s;min-width:0}
+.tab:first-child{border-top-left-radius:35px}
+.tab svg{width:20px;height:20px;color:var(--ink);flex:none}
+.tab:nth-child(1){z-index:9}.tab:nth-child(2){z-index:8}.tab:nth-child(3){z-index:7}.tab:nth-child(4){z-index:6}.tab:nth-child(5){z-index:5}.tab:nth-child(6){z-index:4}
+.tab:hover,.tab[data-state=hover]{background:#FDD68A;transform:translateY(-2px)}
+.tab.is-current,.tab[data-state=active]{background:var(--yellow-100);z-index:10}
+.tab[data-state=disabled]{background:#F1E7CF;color:#D9C9C0;text-shadow:none;transform:none;cursor:not-allowed;border-color:#CDB5B9}
+.tab[data-state=disabled] svg{visibility:hidden}
+.tab-add{width:92px;justify-content:center;padding:0;background:var(--yellow-100)}
+.tab-add svg{width:28px;height:28px}
+
+/* ============ SECTION CHROME ============ */
+.section{margin-top:72px;scroll-margin-top:24px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:28px}
+.eyebrow{font:700 13px/1 var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--rose-500)}
+.h2{font:400 clamp(30px,4.2vw,44px)/1.05 var(--font-display);letter-spacing:1px;color:var(--ink);text-shadow:3px 3px 0 var(--blush-300)}
+.h3{font:700 24px/1.2 var(--font-ui);color:var(--ink)}
+.lead{max-width:62ch;color:var(--ink-soft)}
+.sub{margin-top:56px}
+.sub:first-child{margin-top:0}
+.sub-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px dashed var(--ink-line)}
+.sub-head .note{font-size:13px;color:var(--slate-500)}
+.tag{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--yellow-100);border:1.5px solid var(--ink);border-radius:999px;padding:5px 10px}
+.tag.rose{background:var(--blush-300)}
+.tag.plain{background:var(--white)}
+
+/* ============ HERO ============ */
+.hero{position:relative;padding:clamp(16px,2vw,24px)}
+.stage{position:absolute;inset:0;background:var(--blush-300);border:clamp(6px,1vw,12px) solid var(--ink);border-radius:clamp(32px,5vw,64px);z-index:0}
+.hero .window{margin:clamp(8px,1.4vw,20px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:880px){.hero-grid{grid-template-columns:1fr}}
+.cloud{position:relative;background:var(--white);border:6px solid var(--ink);border-radius:46% 54% 42% 58% / 58% 44% 56% 42%;padding:clamp(28px,5vw,56px) clamp(20px,4vw,48px);text-align:center;overflow:hidden}
+.cloud::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle, rgba(246,185,192,.55) 32%, transparent 35%);background-size:22px 22px;z-index:0}
+.cloud > *{position:relative}
+.welcome{font:400 clamp(22px,3vw,40px)/1 var(--font-display);text-transform:uppercase;color:var(--ink);letter-spacing:1px}
+.logo{font:400 clamp(64px,11vw,148px)/.9 var(--font-display);color:var(--ink);text-shadow:5px 4px 0 var(--maroon-950);transform:rotate(-2.2deg);margin-top:6px;letter-spacing:2px}
+.cloud .tag{margin-top:18px}
+.hero-copy{display:flex;flex-direction:column;gap:20px}
+.hero-copy .h1{font:700 clamp(26px,3vw,34px)/1.15 var(--font-ui);color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{border:2px solid var(--ink);border-radius:16px;padding:10px 12px;background:var(--canvas)}
+.stat b{display:block;font:700 26px/1 var(--font-ui);color:var(--ink);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--slate-500)}
+.folders{display:flex;flex-wrap:wrap;gap:8px 20px}
+.folder{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;cursor:pointer;background:none;border:0;padding:4px;border-radius:10px;transition:transform .15s}
+.folder svg{width:78px;height:52px}
+.folder b{font:700 14px/1.2 var(--font-ui);color:#000;padding:1px 6px;border-radius:4px}
+.folder:hover,.folder[data-state=hover]{transform:translateY(-3px)}
+.folder:active,.folder[data-state=active]{transform:none}
+.folder[data-state=active] b,.folder.is-selected b{background:var(--yellow-100);outline:1.5px solid var(--ink)}
+.folder[data-state=disabled]{opacity:.4;transform:none;cursor:not-allowed}
+
+/* ============ COLOR ============ */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.swatch{appearance:none;background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.chip{height:92px;border:3px solid var(--ink);border-radius:var(--radius-lg);display:flex;align-items:flex-end;justify-content:flex-end;padding:6px 8px;transition:transform .12s, box-shadow .12s}
+.swatch:hover .chip{transform:translate(-2px,-2px);box-shadow:var(--shadow-sticker)}
+.chip .aa{font:700 15px/1 var(--font-ui)}
+.swatch .nm{display:block;margin-top:8px;font:700 16px/1.2 var(--font-ui);color:var(--ink)}
+.swatch .hx{display:block;font-size:12.5px;color:var(--slate-500)}
+.swatch .use{display:block;font-size:12px;color:var(--ink-soft);line-height:1.4;margin-top:2px}
+.group-label{font:700 15px/1 var(--font-ui);color:var(--ink);margin:28px 0 14px;display:flex;align-items:center;gap:10px}
+.group-label:first-child{margin-top:0}
+.group-label::after{content:"";flex:1;border-top:2px dotted var(--ink-line)}
+
+.table-wrap{overflow-x:auto;border:2px solid var(--ink);border-radius:20px;background:var(--white)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1.5px solid var(--ink-line);vertical-align:middle}
+th{font:700 13px/1.2 var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--yellow-100)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-weight:500;color:var(--slate-900)}
+.pair{display:inline-grid;place-items:center;width:64px;height:34px;border-radius:10px;border:1.5px solid var(--ink-line);font:700 17px/1 var(--font-ui)}
+.verdict{font:700 12px/1 var(--font-ui);padding:5px 9px;border-radius:999px;border:1.5px solid currentColor;white-space:nowrap}
+.v-ok{color:#1E7A3C;background:#E6F6EA}.v-warn{color:var(--amber-800);background:#FFF3D6}.v-bad{color:#B3261E;background:#FDE8E6}
+
+/* ============ TYPE ============ */
+.families{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:28px}
+.family{border:3px solid var(--ink);border-radius:var(--radius-2xl);padding:20px;background:var(--white);display:flex;flex-direction:column;gap:8px}
+.family .big{font-size:64px;line-height:1;color:var(--ink)}
+.family .fam-name{font:700 18px/1.2 var(--font-ui);color:var(--ink)}
+.family p{font-size:13px;color:var(--slate-500)}
+.scale{display:flex;flex-direction:column;border:2px solid var(--ink);border-radius:20px;background:var(--white);overflow:hidden}
+.trow{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px;align-items:center;padding:18px 20px;border-bottom:1.5px solid var(--ink-line)}
+.trow:last-child{border-bottom:0}
+.trow .meta b{display:block;font:700 15px/1.2 var(--font-ui);color:var(--ink)}
+.trow .meta span{display:block;font-size:12.5px;color:var(--slate-500);line-height:1.5}
+.trow .spec{min-width:0;overflow-wrap:anywhere}
+@media (max-width:640px){.trow{grid-template-columns:1fr;gap:8px}}
+.t-display-xl{font:400 58px/65px var(--font-display);letter-spacing:2px;color:var(--coral-500);text-shadow:0 3px 0 var(--ink),3px 0 0 var(--ink),0 -3px 0 var(--ink),-3px 0 0 var(--ink),2px 2px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink),4px 5px 0 var(--ink)}
+.t-display-lg{font:400 40px/1.1 var(--font-display);text-transform:uppercase;color:var(--ink)}
+.t-title{font:700 24px/1.3 var(--font-content);color:var(--slate-900)}
+.t-button-lg{font:700 var(--text-8)/1.25 var(--font-ui);color:var(--ink)}
+.t-button{font:700 var(--text-7)/1.25 var(--font-ui);color:var(--ink)}
+.t-helper{font:500 var(--text-7)/1.25 var(--font-ui);color:var(--slate-400)}
+.t-label-loud{font:700 20px/1.25 var(--font-ui);letter-spacing:2px;color:#fff;text-shadow:var(--outline-white)}
+.t-body{font:700 var(--text-5)/1.25 var(--font-ui);color:var(--ink)}
+.t-tab{font:700 var(--text-5)/1.25 var(--font-ui);letter-spacing:1px;color:#fff;text-shadow:var(--outline-white)}
+.t-meta{font:500 16px/1.3 var(--font-content);color:var(--slate-500)}
+.t-caption{font:700 16px/1.25 var(--font-ui);color:#000}
+@media (max-width:640px){.t-display-xl{font-size:42px;line-height:48px}}
+
+/* ============ SPACING / RADIUS / STROKE / SHADOW ============ */
+.spacing{display:flex;flex-direction:column;gap:10px}
+.srow{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:center}
+.srow .k{font:700 14px/1.2 var(--font-ui);color:var(--ink)}
+.srow .k small{display:block;font:400 12px/1.3 var(--font-content);color:var(--slate-500)}
+.srow .bar-line{display:flex;align-items:center;gap:12px;min-width:0}
+.srow .bar{height:22px;flex:none;background:var(--yellow-400);border:2px solid var(--ink);border-radius:4px;box-shadow:2px 2px 0 var(--ink)}
+.srow .u{font-size:12.5px;color:var(--ink-soft);min-width:0}
+@media (max-width:560px){.srow{grid-template-columns:1fr;gap:6px}}
+
+.grid-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.tile{display:flex;flex-direction:column;gap:10px}
+.tile .demo{height:112px;display:grid;place-items:center;background:var(--canvas);border-radius:16px;border:1.5px dashed var(--ink-line);overflow:hidden}
+.tile b{font:700 15px/1.2 var(--font-ui);color:var(--ink)}
+.tile span{font-size:12.5px;color:var(--slate-500);line-height:1.45}
+.rbox{width:84px;height:84px;background:var(--yellow-100);border:3px solid var(--ink)}
+.rbox.wide{width:130px;height:70px}
+.rbox.corner{width:170px;height:170px;align-self:start;justify-self:start;margin:24px 0 0 24px}
+.stroke-line{width:80%;background:var(--ink);border-radius:2px}
+.shadow-demo{width:96px;height:64px;background:var(--white);border:2px solid var(--ink);border-radius:10px}
+
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:14px}
+.icon-cell{border:2px solid var(--ink);border-radius:16px;background:var(--white);padding:16px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--ink);text-align:center}
+.icon-cell svg{width:30px;height:30px}
+.icon-cell b{font:700 13px/1.2 var(--font-ui)}
+.icon-cell span{font-size:11.5px;color:var(--slate-500);line-height:1.3}
+
+/* ============ COMPONENT SPECIMENS ============ */
+.comp{padding-block:36px;border-bottom:2px dashed var(--ink-line)}
+.comp:first-of-type{padding-top:0}
+.comp:last-child{border-bottom:0;padding-bottom:0}
+.comp-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:10px 32px;margin-bottom:22px}
+@media (max-width:800px){.comp-head{grid-template-columns:1fr}}
+.comp-head p{font-size:14px}
+.anat{font-size:12.5px;color:var(--ink-soft);background:var(--canvas);border:1.5px solid var(--ink-line);border-radius:12px;padding:10px 14px;line-height:1.55}
+.anat code{color:var(--ink)}
+.states{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.state{display:flex;flex-direction:column;border:2px solid var(--ink);border-radius:20px;background:var(--canvas);overflow:hidden}
+.state .stage-s{flex:1;min-height:140px;display:grid;place-items:center;padding:22px 16px;background:var(--white)}
+.state .lbl{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 14px;border-top:2px solid var(--ink);background:var(--yellow-100);font:700 13px/1.2 var(--font-ui);color:var(--ink);letter-spacing:.04em}
+.state .lbl small{font:400 11.5px/1.3 var(--font-content);color:var(--ink-soft);letter-spacing:0;text-align:right}
+.state.s-hover .lbl{background:#FFF1C9}.state.s-active .lbl{background:var(--blush-300)}.state.s-disabled .lbl{background:#EFE9E3}
+.live{margin-top:14px;font-size:13px;color:var(--slate-500);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* layout card */
+.lcard{appearance:none;font:inherit;text-align:center;cursor:pointer;width:100%;max-width:236px;background:var(--white);border:3px solid var(--ink);border-radius:var(--radius-2xl);
+  padding:16px;display:flex;flex-direction:column;gap:12px;position:relative;transition:transform .15s, box-shadow .15s, border-color .15s}
+.lcard .frame{aspect-ratio:264/300;border:1px solid var(--slate-200);border-radius:var(--radius-xl);padding:10px;display:grid;gap:7px}
+.lcard .frame i{background:var(--placeholder);border-radius:14px;display:block}
+.f-a{grid-template-rows:1fr 1fr}.f-b{grid-template-rows:1fr 1fr 1fr}.f-c{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.lcard .frame.f-e{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:5px;border-color:var(--hairline);border-radius:var(--radius-md);box-shadow:var(--shadow-soft)}
+.f-e i{border-radius:4px!important}.f-e i.o{border-radius:100px!important}
+.lcard .ttl{font:700 20px/1.2 var(--font-content);color:var(--slate-900)}
+.lcard .mt{font:500 14px/1.2 var(--font-content);color:var(--slate-500);margin-top:3px}
+.lcard .badge{position:absolute;top:-12px;right:-12px;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:none;place-items:center;border:3px solid var(--white)}
+.lcard .badge svg{width:18px;height:18px}
+.lcard:hover,.lcard[data-state=hover]{transform:translate(-2px,-2px);box-shadow:var(--shadow-sticker)}
+.lcard:active{transform:none;box-shadow:none}
+.lcard.is-selected,.lcard[data-state=active]{border-color:var(--rose-500);box-shadow:0 0 0 4px var(--blush-300)}
+.lcard.is-selected .badge,.lcard[data-state=active] .badge{display:grid}
+.lcard:disabled,.lcard[data-state=disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.lcard .soon{position:absolute;top:12px;left:12px;font:700 11px/1 var(--font-ui);letter-spacing:.06em;text-transform:uppercase;background:var(--canvas);border:1.5px solid var(--ink);border-radius:999px;padding:4px 8px;color:var(--ink);display:none}
+.lcard[data-state=disabled] .soon,.lcard:disabled .soon{display:block}
+
+/* sticker tile */
+.stile{appearance:none;cursor:pointer;background:var(--white);border:1px solid var(--ink);border-radius:var(--radius-xs);padding:10px;color:var(--ink);display:grid;place-items:center;transition:background .12s, box-shadow .12s}
+.stile svg{width:64px;height:64px}
+.stile:hover,.stile[data-state=hover]{background:var(--yellow-100)}
+.stile.is-selected,.stile[data-state=active]{background:var(--blush-300);outline:1px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.stile:disabled,.stile[data-state=disabled]{cursor:not-allowed;background:var(--white);box-shadow:none}
+.stile:disabled svg,.stile[data-state=disabled] svg{opacity:.3}
+.swindow{border:2px solid var(--ink);border-radius:var(--radius-xs);box-shadow:var(--shadow-sticker);background:var(--white);padding:18px;display:flex;gap:18px}
+.sgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;flex:1;min-width:0}
+.sgrid .stile svg{width:100%;height:auto;max-width:56px}
+
+/* scrollbar */
+.sbar{width:15px;flex:none;background:var(--neutral-50);border:1px solid var(--ink);position:relative;align-self:stretch;min-height:120px}
+.sbar i{position:absolute;left:0;right:0;top:0;height:45%;border-radius:24px;background:var(--neutral-300)}
+.sbar.rose i{background:var(--rose-500)}
+
+/* pose tray */
+.tray{display:inline-flex;gap:4px;background:var(--white);border:2px solid var(--ink);border-radius:var(--radius-xs);padding:10px 4px 4px;box-shadow:var(--shadow-sticker)}
+.tray span{width:44px;height:44px;border:1px solid #000;display:grid;place-items:center;background:var(--white)}
+.tray svg{width:22px;height:22px}
+
+/* timer */
+.timer{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:240px;background:var(--white);border:2px solid var(--ink);border-radius:var(--radius-xl);padding:8px 20px;box-shadow:var(--shadow-chip);
+  font:700 var(--text-8)/1.25 var(--font-ui);color:var(--amber-800);font-variant-numeric:tabular-nums}
+.timer svg{width:22px;height:22px;color:#000}
+.timer.warn{color:var(--coral-500);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.04)}}
+
+/* shutter */
+.shutter{appearance:none;cursor:pointer;width:72px;height:72px;border-radius:50%;background:#A6A6A6;border:0;transition:transform .12s, background .12s, box-shadow .12s}
+.shutter:hover,.shutter[data-state=hover]{background:var(--white);box-shadow:0 0 0 4px var(--ink)}
+.shutter:active,.shutter[data-state=active]{transform:scale(.9);background:var(--white);box-shadow:0 0 0 4px var(--ink)}
+.shutter:disabled,.shutter[data-state=disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;background:#A6A6A6}
+.viewfinder{width:100%;max-width:220px;aspect-ratio:16/10;background:var(--camera-off);border:3px solid var(--ink);border-radius:18px;display:grid;place-items:end center;padding-bottom:10px}
+
+/* progress */
+.progress{background:var(--white);border:1px solid #000;border-radius:var(--radius-sm);padding:7px 10px;box-shadow:4px 4px 0 #000;display:flex;gap:8px;width:100%;max-width:360px;overflow:hidden}
+.progress.on{border:3px solid var(--ink);box-shadow:none}
+.progress i{width:20px;height:34px;flex:none;border:1px solid #000;border-radius:var(--radius-2xs);background:var(--dusty-400);box-shadow:var(--shadow-mini)}
+.progress.on i{background:var(--rose-500b);border-color:var(--ink)}
+.progress.on i.off{background:transparent;border-color:transparent;box-shadow:none}
+.progress.anim i{animation:seg 2.6s steps(1) infinite}
+@keyframes seg{0%{opacity:0}100%{opacity:1}}
+
+/* dialog */
+.dialog{width:100%;max-width:520px}
+.dialog .titlebar{border-radius:31px 31px 0 0;min-height:0;padding:12px 16px}
+.dialog .winbody{border-radius:0 0 31px 31px;padding:18px 22px 24px;display:flex;flex-direction:column;gap:14px}
+.dialog .t-body{white-space:nowrap}
+.wctrl{display:flex;gap:6px;color:var(--ink)}
+.wctrl .ibtn{width:34px;height:34px}.wctrl .ibtn svg{width:22px;height:22px}
+.dstack{position:relative;display:grid;padding:0 32px 24px 0}
+.dstack .dialog{grid-area:1/1}
+.dstack .dialog:nth-child(1){transform:translate(-0px,-0px)}
+.dstack .dialog:nth-child(2){transform:translate(16px,12px)}
+.dstack .dialog:nth-child(3){transform:translate(32px,24px)}
+
+/* QR */
+.qr{width:100%;max-width:280px;aspect-ratio:1;border:3px solid var(--ink);border-radius:var(--radius-xl);padding:18px;background:var(--white);display:grid;grid-template-columns:repeat(25,1fr)}
+.qr i{background:#000;display:block}
+.qr i.w{background:transparent}
+
+/* photo strip */
+.strip{width:100%;max-width:170px;padding:12px;background:repeating-linear-gradient(0deg,rgba(76,166,120,.35) 0 6px,transparent 6px 12px),repeating-linear-gradient(90deg,rgba(76,166,120,.35) 0 6px,#fff 6px 12px);
+  border:2px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.strip i{aspect-ratio:3/4;background:var(--white);border:1.5px solid var(--ink);border-radius:10px}
+.strip i:nth-child(1){border-radius:50% 50% 40% 40%}
+.strip .cap{grid-column:1/-1;font:700 15px/1 var(--font-ui);color:#1F3F9A;text-align:center;padding-top:2px}
+
+/* ============ EXAMPLE LAYOUTS ============ */
+.ex{margin-top:40px}
+.ex:first-child{margin-top:0}
+.ex-cap{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:16px}
+.ex-cap p{font-size:14px}
+.chooser{display:grid;grid-template-columns:minmax(0,1fr) 15px 250px;gap:24px;align-items:start}
+@media (max-width:900px){.chooser{grid-template-columns:1fr}.chooser .sbar{display:none}}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:22px;justify-items:center}
+.sidebar{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.sidebar .t-display-xl{font-size:44px;line-height:48px}
+.sidebar .lcard{pointer-events:none}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;justify-content:center}
+@media (max-width:640px){.result{grid-template-columns:1fr;justify-items:center}}
+.qrwin{max-width:420px;width:100%}
+.qrwin .winbody{display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px}
+.qrwin .titlebar{gap:20px}
+.qrwin .pill{flex:1;width:auto}
+.stage-box{position:relative;padding:clamp(16px,3vw,36px)}
+.stage-box > .stage{border-radius:40px}
+.stage-box > *:not(.stage){position:relative;z-index:1}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--white);border:2px solid var(--ink);box-shadow:var(--shadow-sticker);border-radius:999px;padding:10px 18px;font:700 15px/1 var(--font-ui);color:var(--ink);transition:.2s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.foot{margin-top:72px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center;font-size:13px;color:var(--slate-500)}
+.dos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.do{border:2px solid var(--ink);border-radius:18px;padding:14px 16px;background:var(--white);font-size:14px;display:flex;gap:10px}
+.do b{font:800 16px/1.3 var(--font-ui);flex:none}
+.do.y b{color:#1E7A3C}.do.n b{color:#B3261E}
+</style>
+
+<!-- ============ SVG DEFS ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/>
+    </filter>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M9.6 5.9 3.5 12l6.1 6.1M20.5 12H3.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M14.4 5.9 20.5 12l-6.1 6.1M3.5 12h16.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M19.5 12.5a7.5 7.5 0 1 1-2.2-5.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M18.6 3.5v4.4h-4.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M6 12h12M12 6v12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-square" viewBox="0 0 24 24"><rect x="5.5" y="5.5" width="13" height="13" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.6c.7 0 1.3.4 1.6 1.1l1.9 4 4.3.6c1.4.2 2 1.9.9 2.9l-3.1 3.1.8 4.3c.2 1.4-1.2 2.4-2.4 1.8L12 18.3l-4 2.1c-1.2.6-2.6-.4-2.4-1.8l.8-4.3-3.1-3.1c-1-1-.5-2.7.9-2.9l4.3-.6 1.9-4c.3-.7.9-1.1 1.6-1.1z"/></symbol>
+    <symbol id="i-star-o" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3.4c.5 0 .9.3 1.1.7l1.9 4.1 4.4.6c.9.1 1.3 1.3.6 1.9l-3.2 3.1.8 4.4c.2.9-.8 1.6-1.6 1.2L12 17.4l-4 2.1c-.8.4-1.8-.3-1.6-1.2l.8-4.4-3.2-3.1c-.7-.6-.3-1.8.6-1.9l4.4-.6 1.9-4.1c.2-.4.6-.7 1.1-.7z"/></symbol>
+    <symbol id="reddie" viewBox="0 0 48 40">
+      <rect x="1.5" y="15" width="7" height="12" rx="3.5" fill="#B82B2B" stroke="#1B1B1B" stroke-width="1.6"/>
+      <rect x="39.5" y="15" width="7" height="12" rx="3.5" fill="#B82B2B" stroke="#1B1B1B" stroke-width="1.6"/>
+      <ellipse cx="24" cy="21" rx="18" ry="16.5" fill="#E23B3B" stroke="#1B1B1B" stroke-width="1.8"/>
+      <rect x="11" y="13" width="26" height="15" rx="7.5" fill="#161616"/>
+      <ellipse cx="19" cy="20.5" rx="2.3" ry="3.1" fill="#FBE9D0"/><ellipse cx="29" cy="20.5" rx="2.3" ry="3.1" fill="#FBE9D0"/>
+      <path d="M14 9.5c3.5-2.4 9-3.2 13.5-2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>
+    </symbol>
+    <symbol id="folder" viewBox="0 0 144 96">
+      <path d="M6 14q0-8 8-8h32q5 0 7 4l4 6h73q8 0 8 8v58q0 8-8 8H14q-8 0-8-8z" fill="currentColor" stroke="#1B1B1B" stroke-width="3"/>
+      <path d="M6 14q0-8 8-8h32q5 0 7 4l4 6h73q8 0 8 8v58q0 8-8 8H14q-8 0-8-8z" fill="#000" opacity=".1"/>
+      <path d="M22 38q1-7 8-7h104q7 0 6 7l-9 46q-1.5 7-8.5 7H14q-7 0-6-7z" fill="currentColor" stroke="#1B1B1B" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero" id="top">
+    <svg class="burst" id="burst1" viewBox="0 0 200 200" style="right:-70px;top:-80px;width:clamp(180px,24vw,320px)" aria-hidden="true"><polygon/></svg>
+    <div class="stage"></div>
+    <div class="window">
+      <div class="titlebar rough">
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <label class="pill" for="hero-address"><input id="hero-address" value="Ready to make new memories?" aria-label="Address bar"><svg><use href="#i-star"/></svg></label>
+        <svg class="avatar" aria-label="Reddie"><use href="#reddie"/></svg>
+      </div>
+      <div class="winbody rough">
+        <div class="hero-grid">
+          <div class="cloud">
+            <div class="welcome">Welcome to</div>
+            <div class="logo">PICORIE</div>
+            <span class="tag rose">Design System · v1.0</span>
+          </div>
+          <div class="hero-copy">
+            <span class="eyebrow">Photobooth by Reddie</span>
+            <h1 class="h1">Semua token, komponen, dan pola layar untuk membangun Picorie tanpa menebak.</h1>
+            <p class="lead">Nilai di halaman ini diambil dari file Figma <b>Photobooth-Reddie → vibecode</b>. Klik swatch warna untuk menyalin hex-nya. Setiap komponen ditampilkan dalam state default, hover, active, dan disabled.</p>
+            <div class="stats">
+              <div class="stat"><b>7</b><span>layar di Figma</span></div>
+              <div class="stat"><b>27</b><span>token warna</span></div>
+              <div class="stat"><b>16</b><span>komponen</span></div>
+            </div>
+            <nav class="folders" aria-label="Isi halaman">
+              <a class="folder" href="#foundation"><svg style="color:#F5B8C4"><use href="#folder"/></svg><b>foundation</b></a>
+              <a class="folder" href="#components"><svg style="color:#FDF3DC"><use href="#folder"/></svg><b>components</b></a>
+              <a class="folder" href="#layouts"><svg style="color:#C26A78"><use href="#folder"/></svg><b>layouts</b></a>
+              <a class="folder" href="#rules"><svg style="color:#FECE4E"><use href="#folder"/></svg><b>do &amp; don't</b></a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= FOUNDATION ================= -->
+  <section class="section" id="foundation">
+    <div class="sec-head">
+      <div><span class="eyebrow">Bagian 01</span><h2 class="h2">Foundation</h2></div>
+      <p class="lead">Token dasar: warna, tipografi, spacing, radius, stroke, shadow, ikon, dan motif.</p>
+    </div>
+
+    <div class="window">
+      <nav class="tabs" aria-label="Foundation">
+        <a class="tab is-current" href="#color">Color <svg><use href="#i-x"/></svg></a>
+        <a class="tab" href="#type">Typography <svg><use href="#i-x"/></svg></a>
+        <a class="tab" href="#spacing">Spacing <svg><use href="#i-x"/></svg></a>
+        <a class="tab" href="#shape">Shape <svg><use href="#i-x"/></svg></a>
+        <a class="tab" href="#icons">Icons <svg><use href="#i-x"/></svg></a>
+      </nav>
+      <div class="titlebar flat-left rough">
+        <div class="navicons"><svg width="26" height="26"><use href="#i-left"/></svg><svg width="26" height="26"><use href="#i-right"/></svg><svg width="22" height="22"><use href="#i-undo"/></svg></div>
+        <div class="pill"><span>picorie / foundation</span><svg><use href="#i-star"/></svg></div>
+        <svg class="avatar" aria-hidden="true"><use href="#reddie"/></svg>
+      </div>
+      <div class="winbody rough">
+
+        <!-- COLOR -->
+        <div class="sub" id="color">
+          <div class="sub-head"><h3 class="h3">Color palette</h3><span class="note">Klik swatch untuk menyalin hex</span></div>
+
+          <div class="group-label">Brand: Maroon &amp; Rose</div>
+          <div class="swatches">
+            <button class="swatch" data-hex="#782B37"><div class="chip" style="background:#782B37"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">maroon-700</span><span class="hx mono">#782B37</span><span class="use">Ink utama: semua outline, teks tombol, ikon</span></button>
+            <button class="swatch" data-hex="#60222C"><div class="chip" style="background:#60222C"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">maroon-800</span><span class="hx mono">#60222C</span><span class="use">Outline body jendela gelap</span></button>
+            <button class="swatch" data-hex="#C06878"><div class="chip" style="background:#C06878"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">rose-500</span><span class="hx mono">#C06878</span><span class="use">Scrollbar aktif, state selected</span></button>
+            <button class="swatch" data-hex="#C26A78"><div class="chip" style="background:#C26A78"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">rose-500b</span><span class="hx mono">#C26A78</span><span class="use">Segmen progress terisi, folder mauve</span></button>
+            <button class="swatch" data-hex="#B99898"><div class="chip" style="background:#B99898"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">dusty-400</span><span class="hx mono">#B99898</span><span class="use">Segmen progress idle</span></button>
+            <button class="swatch" data-hex="#F6B9C0"><div class="chip" style="background:#F6B9C0"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">blush-300</span><span class="hx mono">#F6B9C0</span><span class="use">Stage pink, starburst, halftone</span></button>
+          </div>
+
+          <div class="group-label">Sunshine: Kuning untuk aksi</div>
+          <div class="swatches">
+            <button class="swatch" data-hex="#FECE4E"><div class="chip" style="background:#FECE4E"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">yellow-400</span><span class="hx mono">#FECE4E</span><span class="use">Tombol primary, title bar</span></button>
+            <button class="swatch" data-hex="#FCC86A"><div class="chip" style="background:#FCC86A"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">yellow-300</span><span class="hx mono">#FCC86A</span><span class="use">Tab inactive</span></button>
+            <button class="swatch" data-hex="#FFE6A4"><div class="chip" style="background:#FFE6A4"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">yellow-100</span><span class="hx mono">#FFE6A4</span><span class="use">Tab active, hover lembut</span></button>
+            <button class="swatch" data-hex="#EDAC00"><div class="chip" style="background:#EDAC00"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">yellow-600</span><span class="hx mono">#EDAC00</span><span class="use">Border 8px tombol</span></button>
+            <button class="swatch" data-hex="#C98F00"><div class="chip" style="background:#C98F00"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">yellow-700</span><span class="hx mono">#C98F00</span><span class="use">Bibir 3D tombol</span></button>
+            <button class="swatch" data-hex="#8A5A00"><div class="chip" style="background:#8A5A00"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">amber-800</span><span class="hx mono">#8A5A00</span><span class="use">Teks timer</span></button>
+            <button class="swatch" data-hex="#EB5C5D"><div class="chip" style="background:#EB5C5D"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">coral-500</span><span class="hx mono">#EB5C5D</span><span class="use">Judul display "Selected Frame"</span></button>
+          </div>
+
+          <div class="group-label">Surface &amp; Neutral</div>
+          <div class="swatches">
+            <button class="swatch" data-hex="#F8F4ED"><div class="chip" style="background:#F8F4ED"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">canvas</span><span class="hx mono">#F8F4ED</span><span class="use">Background halaman</span></button>
+            <button class="swatch" data-hex="#FFFFFF"><div class="chip" style="background:#FFFFFF"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">white</span><span class="hx mono">#FFFFFF</span><span class="use">Body jendela, card, pill</span></button>
+            <button class="swatch" data-hex="#FAFAFA"><div class="chip" style="background:#FAFAFA"><span class="aa" style="color:#782B37">Aa</span></div><span class="nm">neutral-50</span><span class="hx mono">#FAFAFA</span><span class="use">Track scrollbar</span></button>
+            <button class="swatch" data-hex="#F2F2F7"><div class="chip" style="background:#F2F2F7"><span class="aa" style="color:#64748B">Aa</span></div><span class="nm">placeholder</span><span class="hx mono">#F2F2F7</span><span class="use">Slot foto kosong</span></button>
+            <button class="swatch" data-hex="#E2E8F0"><div class="chip" style="background:#E2E8F0"><span class="aa" style="color:#64748B">Aa</span></div><span class="nm">slate-200</span><span class="hx mono">#E2E8F0</span><span class="use">Border frame preview</span></button>
+            <button class="swatch" data-hex="#D2D2D7"><div class="chip" style="background:#D2D2D7"><span class="aa" style="color:#0F172A">Aa</span></div><span class="nm">hairline</span><span class="hx mono">#D2D2D7</span><span class="use">Border frame (layout E)</span></button>
+            <button class="swatch" data-hex="#D4D4D4"><div class="chip" style="background:#D4D4D4"><span class="aa" style="color:#0F172A">Aa</span></div><span class="nm">neutral-300</span><span class="hx mono">#D4D4D4</span><span class="use">Thumb scrollbar netral</span></button>
+            <button class="swatch" data-hex="#CCCCCC"><div class="chip" style="background:#CCCCCC"><span class="aa" style="color:#0F172A">Aa</span></div><span class="nm">camera-off</span><span class="hx mono">#CCCCCC</span><span class="use">Viewfinder belum aktif</span></button>
+          </div>
+
+          <div class="group-label">Text &amp; window controls</div>
+          <div class="swatches">
+            <button class="swatch" data-hex="#0F172A"><div class="chip" style="background:#0F172A"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">slate-900</span><span class="hx mono">#0F172A</span><span class="use">Judul card</span></button>
+            <button class="swatch" data-hex="#64748B"><div class="chip" style="background:#64748B"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">slate-500</span><span class="hx mono">#64748B</span><span class="use">Meta card "2 Pose"</span></button>
+            <button class="swatch" data-hex="#94A3B8"><div class="chip" style="background:#94A3B8"><span class="aa" style="color:#fff">Aa</span></div><span class="nm">slate-400</span><span class="hx mono">#94A3B8</span><span class="use">Helper "Scan QR or Print"</span></button>
+            <button class="swatch" data-hex="#EC4B4B"><div class="chip" style="background:#EC4B4B"><span class="aa" style="color:#fff">≈</span></div><span class="nm">dot-close</span><span class="hx mono">#EC4B4B ≈</span><span class="use">Traffic light merah</span></button>
+            <button class="swatch" data-hex="#E8B21C"><div class="chip" style="background:#E8B21C"><span class="aa" style="color:#782B37">≈</span></div><span class="nm">dot-min</span><span class="hx mono">#E8B21C ≈</span><span class="use">Traffic light kuning</span></button>
+            <button class="swatch" data-hex="#34B556"><div class="chip" style="background:#34B556"><span class="aa" style="color:#fff">≈</span></div><span class="nm">dot-max</span><span class="hx mono">#34B556 ≈</span><span class="use">Traffic light hijau</span></button>
+          </div>
+
+          <div class="group-label">Kontras WCAG 2.1</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Contoh</th><th>Foreground / Background</th><th>Rasio</th><th>Status</th><th>Catatan</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pair" style="background:#fff;color:#782B37">Aa</span></td><td>maroon-700 / white</td><td class="num">9.55 : 1</td><td><span class="verdict v-ok">AAA</span></td><td>Default teks UI</td></tr>
+                <tr><td><span class="pair" style="background:#FECE4E;color:#782B37">Aa</span></td><td>maroon-700 / yellow-400</td><td class="num">6.44 : 1</td><td><span class="verdict v-ok">AA</span></td><td>Label tombol, title bar</td></tr>
+                <tr><td><span class="pair" style="background:#FFE6A4;color:#782B37">Aa</span></td><td>maroon-700 / yellow-100</td><td class="num">7.78 : 1</td><td><span class="verdict v-ok">AAA</span></td><td>Tab active, hover</td></tr>
+                <tr><td><span class="pair" style="background:#F6B9C0;color:#782B37">Aa</span></td><td>maroon-700 / blush-300</td><td class="num">5.74 : 1</td><td><span class="verdict v-ok">AA</span></td><td>Teks di atas stage</td></tr>
+                <tr><td><span class="pair" style="background:#fff;color:#64748B">Aa</span></td><td>slate-500 / white</td><td class="num">4.76 : 1</td><td><span class="verdict v-ok">AA</span></td><td>Meta card</td></tr>
+                <tr><td><span class="pair" style="background:#fff;color:#EB5C5D">Aa</span></td><td>coral-500 / white</td><td class="num">3.38 : 1</td><td><span class="verdict v-warn">Teks besar</span></td><td>Hanya ≥ 24px dan wajib dengan outline maroon</td></tr>
+                <tr><td><span class="pair" style="background:#fff;color:#94A3B8">Aa</span></td><td>slate-400 / white</td><td class="num">2.56 : 1</td><td><span class="verdict v-bad">Gagal</span></td><td>Pakai slate-500 untuk teks yang wajib terbaca</td></tr>
+                <tr><td><span class="pair" style="background:#FCC86A;color:#fff">Aa</span></td><td>white / yellow-300</td><td class="num">1.54 : 1</td><td><span class="verdict v-bad">Gagal</span></td><td>Teks tab putih wajib diberi stroke maroon</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TYPE -->
+        <div class="sub" id="type">
+          <div class="sub-head"><h3 class="h3">Typography</h3><span class="note">Token Figma: text-5 = 18 · text-7 = 22 · text-8 = 24 · bold 700 · medium 500</span></div>
+          <div class="families">
+            <div class="family"><span class="big" style="font-family:var(--font-display)">Aa</span><span class="fam-name">Block Berthold</span><p>Display. Font komersial, perlu self-host. Fallback: Lilita One.</p></div>
+            <div class="family"><span class="big" style="font-family:var(--font-ui);font-weight:700">Aa</span><span class="fam-name">Baloo 2 · 500 / 700</span><p>UI: tombol, address bar, tab, label, timer. Google Fonts.</p></div>
+            <div class="family"><span class="big" style="font-family:var(--font-content);font-weight:700">Aa</span><span class="fam-name">Poppins · 500 / 700</span><p>Konten: judul &amp; meta pada layout card. Google Fonts.</p></div>
+          </div>
+          <div class="scale">
+            <div class="trow"><div class="meta"><b>display-xl</b><span>Block Berthold · 58/65 · +2px<br>coral + outline maroon</span></div><div class="spec t-display-xl">Selected Frame</div></div>
+            <div class="trow"><div class="meta"><b>display-lg</b><span>Block Berthold · 40 · UPPERCASE<br>maroon-700</span></div><div class="spec t-display-lg">Welcome to</div></div>
+            <div class="trow"><div class="meta"><b>title</b><span>Poppins Bold · 24<br>slate-900</span></div><div class="spec t-title">Layout A</div></div>
+            <div class="trow"><div class="meta"><b>button-lg · text-8</b><span>Baloo 2 Bold · 24<br>maroon-700</span></div><div class="spec t-button-lg">Start Photobooth</div></div>
+            <div class="trow"><div class="meta"><b>button · text-7</b><span>Baloo 2 Bold · 22<br>maroon-700</span></div><div class="spec t-button">Next · Print</div></div>
+            <div class="trow"><div class="meta"><b>helper · text-7</b><span>Baloo 2 Medium · 22<br>slate-400</span></div><div class="spec t-helper">Scan QR or Print</div></div>
+            <div class="trow"><div class="meta"><b>label-loud</b><span>Baloo 2 Bold · 20 · +2px<br>white + outline maroon</span></div><div class="spec t-label-loud">Loading...</div></div>
+            <div class="trow"><div class="meta"><b>body · text-5</b><span>Baloo 2 Bold · 18<br>maroon-700</span></div><div class="spec t-body">Ready to make new memories?</div></div>
+            <div class="trow"><div class="meta"><b>tab · text-5</b><span>Baloo 2 Bold · 18 · +1px<br>white + outline maroon</span></div><div class="spec t-tab">Choose Frame</div></div>
+            <div class="trow"><div class="meta"><b>meta</b><span>Poppins Medium · 16<br>slate-500</span></div><div class="spec t-meta">2 Pose</div></div>
+            <div class="trow"><div class="meta"><b>caption</b><span>Baloo 2 Bold · 16<br>black</span></div><div class="spec t-caption">reddie</div></div>
+          </div>
+        </div>
+
+        <!-- SPACING -->
+        <div class="sub" id="spacing">
+          <div class="sub-head"><h3 class="h3">Spacing system</h3><span class="note">Grid dasar 4px. Nilai 6, 10, 14, 35 memang dipakai di Figma.</span></div>
+          <div class="spacing" id="spacing-list"></div>
+        </div>
+
+        <!-- SHAPE -->
+        <div class="sub" id="shape">
+          <div class="sub-head"><h3 class="h3">Radius</h3><span class="note">Sudut makin besar untuk objek makin besar</span></div>
+          <div class="grid-tiles" id="radius-list"></div>
+
+          <div class="sub-head" style="margin-top:44px"><h3 class="h3">Stroke</h3><span class="note">Semua outline objek memakai maroon-700</span></div>
+          <div class="grid-tiles">
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:1px"></div></div><b>stroke-hair · 1</b><span>Icon tile, segmen, scrollbar, frame preview</span></div>
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:2px"></div></div><b>stroke-thin · 2</b><span>Address pill, timer, sticker window, tray</span></div>
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:3px"></div></div><b>stroke-card · 3</b><span>Layout card, QR, progress aktif</span></div>
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:5px"></div></div><b>stroke-window · 5</b><span>Title bar, body jendela, tab, dialog</span></div>
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:8px;background:var(--yellow-600)"></div></div><b>stroke-button · 8</b><span>Tombol primary (yellow-600)</span></div>
+            <div class="tile"><div class="demo"><div class="stroke-line" style="height:12px"></div></div><b>stroke-stage · 12</b><span>Stage pink</span></div>
+          </div>
+
+          <div class="sub-head" style="margin-top:44px"><h3 class="h3">Elevation</h3><span class="note">Hard shadow tanpa blur untuk sticker; blur hanya di tombol</span></div>
+          <div class="grid-tiles">
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="background:var(--yellow-400);border:6px solid var(--yellow-600);border-radius:999px;box-shadow:var(--shadow-button)"></div></div><b>shadow-button</b><span class="mono">0 5 0 #C98F00, 0 10 18 rgba(60,10,10,.2)</span></div>
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="border-radius:4px;box-shadow:var(--shadow-sticker)"></div></div><b>shadow-sticker</b><span class="mono">4 4 0 #782B37</span></div>
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="border-radius:20px;box-shadow:var(--shadow-chip)"></div></div><b>shadow-chip</b><span class="mono">3 2 0 #782B37</span></div>
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="border-color:#000;border-width:1px;border-radius:5px;box-shadow:4px 4px 0 #000"></div></div><b>shadow-sticker-dark</b><span class="mono">4 4 0 #000</span></div>
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="width:30px;height:48px;background:var(--dusty-400);border:1px solid #000;border-radius:2px;box-shadow:var(--shadow-mini)"></div></div><b>shadow-mini</b><span class="mono">2 2 0 #000</span></div>
+            <div class="tile"><div class="demo"><div class="shadow-demo" style="border:1px solid var(--hairline);border-radius:8px;box-shadow:var(--shadow-soft)"></div></div><b>shadow-soft</b><span class="mono">0 4 5 rgba(0,0,0,.04)</span></div>
+          </div>
+        </div>
+
+        <!-- ICONS & MOTIFS -->
+        <div class="sub" id="icons">
+          <div class="sub-head"><h3 class="h3">Iconography</h3><span class="note">vuesax/linear, Line Awesome solid, Iconly Curved Bold · stroke 1.5–2 · maroon</span></div>
+          <div class="icons">
+            <div class="icon-cell"><svg><use href="#i-left"/></svg><b>arrow-left</b><span>vuesax · 26</span></div>
+            <div class="icon-cell"><svg><use href="#i-right"/></svg><b>arrow-right</b><span>vuesax · 26</span></div>
+            <div class="icon-cell"><svg><use href="#i-undo"/></svg><b>undo-alt</b><span>LA solid · 22</span></div>
+            <div class="icon-cell"><svg><use href="#i-plus"/></svg><b>add</b><span>vuesax · 32</span></div>
+            <div class="icon-cell"><svg><use href="#i-minus"/></svg><b>minus</b><span>vuesax · 26</span></div>
+            <div class="icon-cell"><svg><use href="#i-square"/></svg><b>square</b><span>26</span></div>
+            <div class="icon-cell"><svg><use href="#i-x"/></svg><b>times</b><span>LA solid · 22</span></div>
+            <div class="icon-cell"><svg><use href="#i-star"/></svg><b>star</b><span>Iconly Bold · 24 / 100</span></div>
+            <div class="icon-cell"><svg style="width:44px;height:36px"><use href="#reddie"/></svg><b>Reddie</b><span>Avatar · 43×36</span></div>
+          </div>
+
+          <div class="sub-head" style="margin-top:44px"><h3 class="h3">Motif &amp; ilustrasi</h3><span class="note">Dekorasi yang membuat Picorie terasa seperti komik</span></div>
+          <div class="grid-tiles">
+            <div class="tile"><div class="demo" style="background:var(--blush-300)"><div style="width:120px;height:70px;border:6px solid var(--ink);border-radius:22px;background:var(--canvas)"></div></div><b>Stage</b><span>blush-300 · border 12 · radius 64</span></div>
+            <div class="tile"><div class="demo"><svg class="burst-mini" viewBox="0 0 200 200" width="110" height="110"><polygon fill="#F6B9C0"/></svg></div><b>Starburst</b><span>Ledakan komik di pojok kanan atas</span></div>
+            <div class="tile"><div class="demo halftone"></div><b>Halftone</b><span>Titik blush di sudut &amp; dalam jendela</span></div>
+            <div class="tile"><div class="demo"><div class="rough" style="width:110px;height:66px;border:4px solid var(--ink);border-radius:22px;background:#fff"></div></div><b>Sketch border</b><span>feTurbulence + displacement, skala 3</span></div>
+            <div class="tile"><div class="demo" style="gap:6px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;padding:8px">
+              <svg width="54" height="36" style="color:#F5B8C4"><use href="#folder"/></svg><svg width="54" height="36" style="color:#FDF3DC"><use href="#folder"/></svg><svg width="54" height="36" style="color:#C26A78"><use href="#folder"/></svg><svg width="54" height="36" style="color:#FECE4E"><use href="#folder"/></svg>
+            </div><b>Folder</b><span>#F5B8C4≈ · #FDF3DC≈ · #C26A78 · #FECE4E</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMPONENTS ================= -->
+  <section class="section" id="components">
+    <div class="sec-head">
+      <div><span class="eyebrow">Bagian 02</span><h2 class="h2">Components</h2></div>
+      <p class="lead">State default dan anatomi mengikuti Figma. Hover, active, dan disabled adalah usulan yang disusun dari token yang sama. Semua specimen juga bisa di-hover dan diklik langsung.</p>
+    </div>
+
+    <div class="window">
+      <div class="titlebar rough">
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="pill"><span>picorie / components</span><svg><use href="#i-star"/></svg></div>
+        <svg class="avatar" aria-hidden="true"><use href="#reddie"/></svg>
+      </div>
+      <div class="winbody rough">
+
+        <!-- BUTTON -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Button / Primary</h3><p>Tombol 3D kuning. Satu per layar untuk aksi utama.</p></div>
+            <div class="anat">pill <code>radius 999</code> · fill <code>yellow-400</code> · border <code>8 yellow-600</code> · shadow <code>shadow-button</code> · label Baloo 2 Bold maroon · <b>lg</b> 80h / 24px · <b>md</b> 61h / 22px</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><button class="btn btn-lg">Start Photobooth</button></div><div class="lbl">DEFAULT <small>lg · 80h</small></div></div>
+            <div class="state s-hover"><div class="stage-s"><button class="btn" data-state="hover">Next</button></div><div class="lbl">HOVER <small>−2px, lip 7px</small></div></div>
+            <div class="state s-active"><div class="stage-s"><button class="btn" data-state="active">Next</button></div><div class="lbl">ACTIVE <small>+5px, lip 0</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><button class="btn" disabled>Print</button></div><div class="lbl">DISABLED <small>tanpa shadow</small></div></div>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Tab / Browser tab</h3><p>Navigasi antar mode (Choose Frame / Create Template). Tab aktif paling depan.</p></div>
+            <div class="anat">h 63 · border <code>5 maroon</code> · radius <code>35/18</code> tab pertama, <code>18/18</code> lainnya · overlap <code>−28</code> · teks tab (white + outline) · close 22 · tab "+" lebar 100</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><div class="tabs" style="margin:0"><span class="tab" style="margin:0">Create Template <svg><use href="#i-x"/></svg></span></div></div><div class="lbl">DEFAULT <small>yellow-300</small></div></div>
+            <div class="state s-hover"><div class="stage-s"><div class="tabs" style="margin:0"><span class="tab" data-state="hover" style="margin:0">Create Template <svg><use href="#i-x"/></svg></span></div></div><div class="lbl">HOVER <small>#FDD68A, −2px</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="tabs" style="margin:0"><span class="tab" data-state="active" style="margin:0">Choose Frame <svg><use href="#i-x"/></svg></span></div></div><div class="lbl">ACTIVE <small>yellow-100, paling depan</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><div class="tabs" style="margin:0"><span class="tab" data-state="disabled" style="margin:0">Template <svg><use href="#i-x"/></svg></span></div></div><div class="lbl">DISABLED <small>tanpa close</small></div></div>
+          </div>
+          <div class="live">Contoh strip (klik tab):
+            <div class="tabs" id="tabdemo" style="margin:0;padding-right:24px">
+              <button class="tab is-current">Choose Frame <svg><use href="#i-x"/></svg></button>
+              <button class="tab">Create Template <svg><use href="#i-x"/></svg></button>
+              <button class="tab tab-add" aria-label="Tab baru"><svg><use href="#i-plus"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDRESS PILL -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Address pill</h3><p>Bar pesan di tengah title bar. Bisa dipakai sebagai input prompt atau judul layar ("Scan Me!").</p></div>
+            <div class="anat">white · border <code>2 maroon</code> · radius <code>20</code> · padding <code>8 16</code> · lebar 352–710 · teks body + star 24</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><div class="pill"><span>Ready to make new memories?</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s"><div class="pill" data-state="hover"><span>Ready to make new memories?</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">HOVER <small>shadow-chip</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="pill" data-state="active"><span>Scan Me!</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">ACTIVE / FOCUS <small>yellow-100 + sticker</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><div class="pill" data-state="disabled"><span>Reddie is offline</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">DISABLED</div></div>
+          </div>
+        </div>
+
+        <!-- ICON BUTTONS + WINDOW CONTROLS -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Icon button &amp; window controls</h3><p>Navigasi title bar (back, forward, reload) dan kontrol dialog (minimize, maximize, close). Traffic light menampilkan glyph saat di-hover.</p></div>
+            <div class="anat">ikon 22–26 maroon · hit area min <code>40×40</code> · traffic light Ø18, outline 1.5, gap 8</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s" style="background:var(--yellow-400);gap:10px;display:flex;flex-wrap:wrap;justify-content:center"><button class="ibtn" aria-label="Back"><svg><use href="#i-left"/></svg></button><div class="lights"><i></i><i></i><i></i></div></div><div class="lbl">DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s" style="background:var(--yellow-400);gap:10px;display:flex;flex-wrap:wrap;justify-content:center"><button class="ibtn" data-state="hover" aria-label="Back"><svg><use href="#i-left"/></svg></button><div class="lights" data-state="hover"><i></i><i></i><i></i></div></div><div class="lbl">HOVER <small>yellow-100 · glyph</small></div></div>
+            <div class="state s-active"><div class="stage-s" style="background:var(--yellow-400);gap:10px;display:flex;flex-wrap:wrap;justify-content:center"><button class="ibtn" data-state="active" aria-label="Back"><svg><use href="#i-left"/></svg></button><button class="ibtn" data-state="active" aria-label="Reload"><svg><use href="#i-undo"/></svg></button></div><div class="lbl">ACTIVE <small>yellow-600, 0.92×</small></div></div>
+            <div class="state s-disabled"><div class="stage-s" style="background:var(--yellow-400);gap:10px;display:flex;flex-wrap:wrap;justify-content:center"><button class="ibtn" disabled aria-label="Forward"><svg><use href="#i-right"/></svg></button><button class="ibtn" disabled aria-label="Close"><svg><use href="#i-x"/></svg></button></div><div class="lbl">DISABLED <small>opacity 35%</small></div></div>
+          </div>
+        </div>
+
+        <!-- LAYOUT CARD -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Layout card</h3><p>Pilihan template foto (Layout A–E). Slot bulat = pose close-up, slot kotak = full body.</p></div>
+            <div class="anat">304×480 · white · border <code>3 maroon</code> · radius <code>28</code> · padding <code>20</code> · gap <code>14</code> · frame border <code>1 slate-200</code> r20 p12 · slot <code>placeholder</code> r16 / r4 / r100 · judul <code>title</code> · meta <code>meta</code></div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><button class="lcard"><span class="badge"><svg><use href="#i-check"/></svg></span><span class="soon">Soon</span><div class="frame f-a"><i></i><i></i></div><div><div class="ttl">Layout A</div><div class="mt">2 Pose</div></div></button></div><div class="lbl">DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s"><button class="lcard" data-state="hover"><span class="badge"><svg><use href="#i-check"/></svg></span><span class="soon">Soon</span><div class="frame f-b"><i></i><i></i><i></i></div><div><div class="ttl">Layout B</div><div class="mt">3 Pose</div></div></button></div><div class="lbl">HOVER <small>sticker shadow</small></div></div>
+            <div class="state s-active"><div class="stage-s"><button class="lcard" data-state="active"><span class="badge"><svg><use href="#i-check"/></svg></span><span class="soon">Soon</span><div class="frame f-e"><i class="o"></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i></div><div><div class="ttl">Layout E</div><div class="mt">5 Pose</div></div></button></div><div class="lbl">SELECTED <small>rose + ring blush</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><button class="lcard" data-state="disabled" disabled><span class="badge"><svg><use href="#i-check"/></svg></span><span class="soon">Soon</span><div class="frame f-c"><i></i><i></i><i></i><i></i></div><div><div class="ttl">Layout C</div><div class="mt">4 Pose</div></div></button></div><div class="lbl">DISABLED <small>45% + badge</small></div></div>
+          </div>
+        </div>
+
+        <!-- STICKER TILE -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Sticker / Effect tile</h3><p>Kotak pilihan efek di layar Choose Effect. Tersusun dalam sticker window 5 kolom + scrollbar.</p></div>
+            <div class="anat">padding <code>10</code> · border <code>1 maroon</code> · radius <code>4</code> · ikon 100 · window: border <code>2</code>, r4, <code>shadow-sticker</code>, gap 24</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><button class="stile" aria-label="Star sticker"><svg><use href="#i-star"/></svg></button></div><div class="lbl">DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s"><button class="stile" data-state="hover" aria-label="Star sticker"><svg><use href="#i-star"/></svg></button></div><div class="lbl">HOVER <small>yellow-100</small></div></div>
+            <div class="state s-active"><div class="stage-s"><button class="stile" data-state="active" aria-label="Star sticker"><svg><use href="#i-star"/></svg></button></div><div class="lbl">SELECTED <small>blush + 3px shadow</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><button class="stile" disabled aria-label="Star sticker"><svg><use href="#i-star"/></svg></button></div><div class="lbl">DISABLED <small>ikon 30%</small></div></div>
+          </div>
+        </div>
+
+        <!-- FOLDER -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Folder (desktop icon)</h3><p>Shortcut di layar onboarding, ditata seperti ikon desktop.</p></div>
+            <div class="anat">ikon <code>144×95</code> · label <code>caption</code> · gap <code>12</code> · 4 warna folder</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><span class="folder"><svg style="color:#F5B8C4"><use href="#folder"/></svg><b>reddie</b></span></div><div class="lbl">DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s"><span class="folder" data-state="hover"><svg style="color:#FDF3DC"><use href="#folder"/></svg><b>reddie</b></span></div><div class="lbl">HOVER <small>−3px</small></div></div>
+            <div class="state s-active"><div class="stage-s"><span class="folder" data-state="active"><svg style="color:#C26A78"><use href="#folder"/></svg><b>reddie</b></span></div><div class="lbl">SELECTED <small>label yellow-100</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><span class="folder" data-state="disabled"><svg style="color:#FECE4E"><use href="#folder"/></svg><b>reddie</b></span></div><div class="lbl">DISABLED <small>opacity 40%</small></div></div>
+          </div>
+        </div>
+
+        <!-- CAMERA CONTROLS -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Camera controls</h3><p>Shutter di dalam viewfinder, timer chip di kolom kanan, dan pose tray di bawah kamera untuk menghitung foto yang sudah diambil.</p></div>
+            <div class="anat">shutter Ø83 · timer <code>2 maroon</code> r20 p<code>8 24</code> <code>shadow-chip</code> amber-800 · tray <code>2 maroon</code> r4 p<code>10 4 4</code> gap 4 <code>shadow-sticker</code></div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><div class="viewfinder"><button class="shutter" aria-label="Ambil foto"></button></div></div><div class="lbl">SHUTTER · DEFAULT</div></div>
+            <div class="state s-hover"><div class="stage-s"><div class="viewfinder"><button class="shutter" data-state="hover" aria-label="Ambil foto"></button></div></div><div class="lbl">HOVER <small>white + ring 4</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="viewfinder"><button class="shutter" data-state="active" aria-label="Ambil foto"></button></div></div><div class="lbl">ACTIVE <small>0.9×</small></div></div>
+            <div class="state s-disabled"><div class="stage-s"><div class="viewfinder"><button class="shutter" disabled aria-label="Ambil foto"></button></div></div><div class="lbl">DISABLED <small>countdown jalan</small></div></div>
+          </div>
+          <div class="states" style="margin-top:16px">
+            <div class="state"><div class="stage-s"><div class="timer"><span>05:00</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">TIMER · DEFAULT</div></div>
+            <div class="state s-active"><div class="stage-s"><div class="timer warn"><span>00:07</span><svg><use href="#i-star"/></svg></div></div><div class="lbl">TIMER · WARNING <small>&lt; 10 detik, coral</small></div></div>
+            <div class="state"><div class="stage-s"><div class="tray"><span><svg><use href="#i-star"/></svg></span><span><svg><use href="#i-star-o"/></svg></span><span><svg><use href="#i-star-o"/></svg></span></div></div><div class="lbl">POSE TRAY <small>1 / 3</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="tray"><span><svg><use href="#i-star"/></svg></span><span><svg><use href="#i-star"/></svg></span><span><svg><use href="#i-star"/></svg></span></div></div><div class="lbl">POSE TRAY <small>3 / 3 selesai</small></div></div>
+          </div>
+        </div>
+
+        <!-- PROGRESS + SCROLLBAR -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Segmented progress &amp; scrollbar</h3><p>Progress bergaya retro untuk layar loading. Scrollbar custom untuk grid frame &amp; sticker.</p></div>
+            <div class="anat">track white r5 p<code>8 11</code> · segmen <code>27×45</code> r2 gap 10 <code>shadow-mini</code> · idle <code>dusty-400</code> border hitam · aktif <code>rose-500b</code> border maroon · scrollbar 15 lebar, thumb r24</div>
+          </div>
+          <div class="states">
+            <div class="state"><div class="stage-s"><div class="progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="lbl">IDLE <small>track hitam</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="progress on"><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div></div><div class="lbl">LOADING <small>5 / 8</small></div></div>
+            <div class="state s-active"><div class="stage-s"><div class="progress on anim" id="anim-progress"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="lbl">ANIMATED <small>loop</small></div></div>
+            <div class="state"><div class="stage-s" style="display:flex;gap:28px;justify-content:center"><div class="sbar"><i></i></div><div class="sbar rose"><i style="top:30%"></i></div></div><div class="lbl">SCROLLBAR <small>netral · rose</small></div></div>
+          </div>
+        </div>
+
+        <!-- DIALOG -->
+        <div class="comp">
+          <div class="comp-head">
+            <div><h3 class="h3">Dialog window</h3><p>Jendela kecil untuk status sistem ("Reddie is cooking"). Title bar kuning dengan kontrol minimize, maximize, dan close.</p></div>
+            <div class="anat">lebar 631 · title bar <code>yellow-400</code> border 5 r<code>31</code> p<code>14 16</code> · body white h175 · tumpukan offset <code>16, 12</code></div>
+          </div>
+          <div class="dstack">
+            <div class="window dialog"><div class="titlebar"><span class="t-body">Reddie is cooking</span></div><div class="winbody" style="height:150px"></div></div>
+            <div class="window dialog"><div class="titlebar"><span class="t-body">Reddie is cooking</span></div><div class="winbody" style="height:150px"></div></div>
+            <div class="window dialog">
+              <div class="titlebar rough"><span class="t-body">Reddie is cooking</span><div class="wctrl"><button class="ibtn" aria-label="Minimize"><svg><use href="#i-minus"/></svg></button><button class="ibtn" aria-label="Maximize"><svg><use href="#i-square"/></svg></button><button class="ibtn" aria-label="Close"><svg><use href="#i-x"/></svg></button></div></div>
+              <div class="winbody rough"><span class="t-label-loud">Loading...</span><div class="progress on anim"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LAYOUTS ================= -->
+  <section class="section" id="layouts">
+    <div class="sec-head">
+      <div><span class="eyebrow">Bagian 03</span><h2 class="h2">Card layouts</h2></div>
+      <p class="lead">Komponen digabung menjadi layar. Ketiga contoh ini mengikuti struktur Figma dan bisa dicoba langsung.</p>
+    </div>
+
+    <!-- Example 1: Choose frame -->
+    <div class="ex">
+      <div class="ex-cap"><span class="tag">Pola: Grid + Sidebar</span><p>Create Template · klik card untuk memilih, sidebar ikut berubah.</p></div>
+      <div class="stage-box">
+        <div class="stage"></div>
+        <div class="window">
+          <div class="tabs">
+            <button class="tab is-current">Choose Frame <svg><use href="#i-x"/></svg></button>
+            <button class="tab">Create Template <svg><use href="#i-x"/></svg></button>
+            <button class="tab tab-add" aria-label="Tab baru"><svg><use href="#i-plus"/></svg></button>
+          </div>
+          <div class="titlebar flat-left rough">
+            <div class="navicons"><button class="ibtn" aria-label="Back"><svg><use href="#i-left"/></svg></button><button class="ibtn" aria-label="Forward"><svg><use href="#i-right"/></svg></button><button class="ibtn" aria-label="Reload"><svg style="width:22px;height:22px"><use href="#i-undo"/></svg></button></div>
+            <div class="pill"><span>Ready to make new memories?</span><svg><use href="#i-star"/></svg></div>
+            <svg class="avatar" aria-hidden="true"><use href="#reddie"/></svg>
+          </div>
+          <div class="winbody rough">
+            <div class="chooser">
+              <div class="cgrid" id="cgrid">
+                <button class="lcard" data-name="Layout A" data-pose="2 Pose" data-f="f-a"><span class="badge"><svg><use href="#i-check"/></svg></span><div class="frame f-a"><i></i><i></i></div><div><div class="ttl">Layout A</div><div class="mt">2 Pose</div></div></button>
+                <button class="lcard" data-name="Layout B" data-pose="3 Pose" data-f="f-b"><span class="badge"><svg><use href="#i-check"/></svg></span><div class="frame f-b"><i></i><i></i><i></i></div><div><div class="ttl">Layout B</div><div class="mt">3 Pose</div></div></button>
+                <button class="lcard" data-name="Layout C" data-pose="4 Pose" data-f="f-c"><span class="badge"><svg><use href="#i-check"/></svg></span><div class="frame f-c"><i></i><i></i><i></i><i></i></div><div><div class="ttl">Layout C</div><div class="mt">4 Pose</div></div></button>
+                <button class="lcard is-selected" data-name="Layout E" data-pose="5 Pose" data-f="f-e"><span class="badge"><svg><use href="#i-check"/></svg></span><div class="frame f-e"><i class="o"></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i></div><div><div class="ttl">Layout E</div><div class="mt">5 Pose</div></div></button>
+                <button class="lcard" data-name="Layout F" data-pose="6 Pose" data-f="f-e2"><span class="badge"><svg><use href="#i-check"/></svg></span><div class="frame f-e"><i class="o"></i><i></i><i></i><i class="o"></i><i></i><i></i></div><div><div class="ttl">Layout F</div><div class="mt">6 Pose</div></div></button>
+                <button class="lcard" data-state="disabled" disabled><span class="badge"><svg><use href="#i-check"/></svg></span><span class="soon">Soon</span><div class="frame f-e"><i class="o"></i><i></i><i></i><i></i><i></i><i class="o"></i></div><div><div class="ttl">Layout G</div><div class="mt">6 Pose</div></div></button>
+              </div>
+              <div class="sbar rose"><i style="height:38%"></i></div>
+              <aside class="sidebar">
+                <div class="t-display-xl">Selected Frame</div>
+                <div class="lcard" id="picked" aria-live="polite"><div class="frame f-e"><i class="o"></i><i></i><i class="o"></i><i></i><i class="o"></i><i></i></div><div><div class="ttl">Layout E</div><div class="mt">5 Pose</div></div></div>
+                <button class="btn btn-block">Next</button>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 2: Result -->
+    <div class="ex">
+      <div class="ex-cap"><span class="tag">Pola: Centered card window</span><p>Result · strip foto dan jendela QR berdampingan.</p></div>
+      <div class="stage-box">
+        <div class="stage"></div>
+        <div class="result">
+          <div class="strip" aria-label="Contoh strip foto"><i></i><i></i><i></i><i></i><i></i><i></i><span class="cap">I ♥ YOU</span></div>
+          <div class="window qrwin">
+            <div class="titlebar rough">
+              <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="pill"><span>Scan Me!</span><svg><use href="#i-star"/></svg></div>
+              <svg class="avatar" aria-hidden="true"><use href="#reddie"/></svg>
+            </div>
+            <div class="winbody rough">
+              <div class="qr" id="qr" role="img" aria-label="Contoh QR code"></div>
+              <span class="t-helper">Scan QR or Print</span>
+              <button class="btn btn-block">Print</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 3: Effect picker -->
+    <div class="ex">
+      <div class="ex-cap"><span class="tag">Pola: Sticker window</span><p>Choose Effect · klik sticker untuk memilih lebih dari satu.</p></div>
+      <div class="stage-box">
+        <div class="stage"></div>
+        <div class="window" style="max-width:760px;margin-inline:auto">
+          <div class="titlebar rough">
+            <div class="lights" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="pill"><span>Pick your stickers!</span><svg><use href="#i-star"/></svg></div>
+            <svg class="avatar" aria-hidden="true"><use href="#reddie"/></svg>
+          </div>
+          <div class="winbody rough" style="display:flex;flex-direction:column;align-items:center;gap:28px">
+            <div class="swindow" style="width:100%">
+              <div class="sgrid" id="sgrid"></div>
+              <div class="sbar"><i></i></div>
+            </div>
+            <button class="btn" style="min-width:min(300px,100%)">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RULES ================= -->
+  <section class="section" id="rules">
+    <div class="sec-head">
+      <div><span class="eyebrow">Bagian 04</span><h2 class="h2">Do &amp; Don't</h2></div>
+    </div>
+    <div class="dos">
+      <div class="do y"><b>DO</b><span>Pakai satu tombol kuning 3D per layar untuk aksi utama.</span></div>
+      <div class="do n"><b>DON'T</b><span>Menaruh dua tombol primary bersebelahan.</span></div>
+      <div class="do y"><b>DO</b><span>Outline objek selalu maroon-700, tebal 2–5px.</span></div>
+      <div class="do n"><b>DON'T</b><span>Outline abu-abu tipis untuk objek utama.</span></div>
+      <div class="do y"><b>DO</b><span>Hard shadow <code>4px 4px 0</code> untuk objek bergaya sticker.</span></div>
+      <div class="do n"><b>DON'T</b><span>Drop shadow blur besar pada card.</span></div>
+      <div class="do y"><b>DO</b><span>Teks putih hanya dengan outline maroon (tab, "Loading...").</span></div>
+      <div class="do n"><b>DON'T</b><span>Coral untuk body text. Coral hanya untuk display ≥ 40px.</span></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Sumber: Figma Photobooth-Reddie · page vibecode (2878:19158) · Spesifikasi lengkap ada di DESIGN.md</span>
+    <a href="#top" class="tag plain" style="text-decoration:none">Kembali ke atas ↑</a>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // starburst polygons
+  function burst(poly, spikes, rIn, rOut){
+    var pts=[], c=100;
+    for(var k=0;k<spikes*2;k++){
+      var r = k%2 ? rIn*(0.9+((k*37)%10)/50) : rOut*(0.85+((k*53)%10)/40);
+      var a = Math.PI*k/spikes - Math.PI/2;
+      pts.push((c+r*Math.cos(a)).toFixed(1)+','+(c+r*Math.sin(a)).toFixed(1));
+    }
+    poly.setAttribute('points', pts.join(' '));
+  }
+  document.querySelectorAll('.burst polygon, .burst-mini polygon').forEach(function(p){ burst(p, 18, 58, 98); });
+
+  // spacing list
+  var spacing=[['space-1',4,'Gap tray ikon, judul↔meta card'],['space-1-5',6,'Gap slot foto (layout E)'],['space-2',8,'Padding vertikal pill, gap slot'],['space-2-5',10,'Padding icon tile, gap segmen'],['space-3',12,'Padding frame preview, folder gap'],['space-3-5',14,'Gap isi card, padding title bar'],['space-4',16,'Padding horizontal pill & dialog'],['space-5',20,'Padding layout card'],['space-6',24,'Gap sticker grid & sidebar'],['space-7',28,'Overlap tab, inset konten jendela'],['space-9',35,'Padding horizontal title bar'],['space-10',40,'Gap title bar QR, inset kamera'],['space-16',64,'Inset konten onboarding']];
+  var sl=document.getElementById('spacing-list');
+  spacing.forEach(function(s){
+    var row=document.createElement('div'); row.className='srow';
+    row.innerHTML='<div class="k">'+s[0]+'<small>'+s[1]+'px</small></div><div class="bar-line"><span class="bar" style="width:'+(s[1]*3)+'px;max-width:60%"></span><span class="u">'+s[2]+'</span></div>';
+    sl.appendChild(row);
+  });
+
+  // radius list
+  var radius=[['radius-2xs',2,'Segmen progress'],['radius-xs',4,'Sticker, tray, icon tile'],['radius-sm',5,'Track progress'],['radius-md',8,'Frame preview (E)'],['radius-lg',16,'Slot foto, swatch'],['radius-tab',18,'Sudut tab'],['radius-xl',20,'Pill, timer, QR'],['radius-2xl',28,'Layout card'],['radius-dialog',31,'Dialog kecil'],['radius-window',54,'Jendela utama'],['radius-stage',64,'Stage pink'],['radius-pill',999,'Tombol, slot bulat']];
+  var rl=document.getElementById('radius-list');
+  radius.forEach(function(r){
+    var big=r[1]>=31 && r[1]<999, pill=r[1]===999;
+    var t=document.createElement('div'); t.className='tile';
+    var box = big ? '<div class="rbox corner" style="border-radius:'+r[1]+'px"></div>' : '<div class="rbox'+(pill?' wide':'')+'" style="border-radius:'+r[1]+'px"></div>';
+    t.innerHTML='<div class="demo">'+box+'</div><b>'+r[0]+' · '+r[1]+'</b><span>'+r[2]+'</span>';
+    rl.appendChild(t);
+  });
+
+  // sticker grid
+  var sg=document.getElementById('sgrid');
+  for(var i=0;i<15;i++){
+    var b=document.createElement('button'); b.className='stile'+(i===2||i===6?' is-selected':''); b.setAttribute('aria-label','Sticker '+(i+1)); b.setAttribute('aria-pressed', i===2||i===6 ? 'true':'false');
+    if(i===14){ b.disabled=true; }
+    b.innerHTML='<svg viewBox="0 0 24 24"><use href="#i-star"/></svg>';
+    b.addEventListener('click',function(){ var on=this.classList.toggle('is-selected'); this.setAttribute('aria-pressed',on); });
+    sg.appendChild(b);
+  }
+
+  // layout chooser
+  var picked=document.getElementById('picked');
+  document.querySelectorAll('#cgrid .lcard:not(:disabled)').forEach(function(card){
+    card.addEventListener('click',function(){
+      document.querySelectorAll('#cgrid .lcard').forEach(function(c){c.classList.remove('is-selected')});
+      card.classList.add('is-selected');
+      picked.querySelector('.frame').outerHTML = card.querySelector('.frame').outerHTML;
+      picked.querySelector('.ttl').textContent = card.dataset.name;
+      picked.querySelector('.mt').textContent = card.dataset.pose;
+    });
+  });
+
+  // tab strips
+  document.querySelectorAll('.tabs').forEach(function(strip){
+    strip.querySelectorAll('button.tab:not(.tab-add)').forEach(function(t){
+      t.addEventListener('click',function(){ strip.querySelectorAll('.tab').forEach(function(x){x.classList.remove('is-current')}); t.classList.add('is-current'); });
+    });
+  });
+
+  // animated progress: stagger
+  document.querySelectorAll('.progress.anim').forEach(function(p){
+    p.querySelectorAll('i').forEach(function(seg,idx){ seg.style.animationDelay=(idx*0.3)+'s'; });
+  });
+
+  // QR (decorative, deterministic)
+  var qr=document.getElementById('qr'), N=25, seed=11;
+  function rnd(){ seed=(seed*9301+49297)%233280; return seed/233280; }
+  function finder(x,y,ox,oy){ var dx=x-ox, dy=y-oy; if(dx<0||dy<0||dx>6||dy>6) return null; return (dx===0||dy===0||dx===6||dy===6||(dx>=2&&dx<=4&&dy>=2&&dy<=4)); }
+  for(var y=0;y<N;y++){ for(var x=0;x<N;x++){
+    var f=finder(x,y,0,0); if(f===null) f=finder(x,y,N-7,0); if(f===null) f=finder(x,y,0,N-7);
+    var sep=(x===7&&y<8)||(y===7&&x<8)||(x===N-8&&y<8)||(y===7&&x>N-9)||(x===7&&y>N-9)||(y===N-8&&x<8);
+    var on = f!==null ? f : (sep ? false : rnd()>0.52);
+    var c=document.createElement('i'); if(!on) c.className='w'; qr.appendChild(c);
+  }}
+
+  // copy swatch
+  var toast=document.getElementById('toast'), tt;
+  function show(msg){ toast.textContent=msg; toast.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('show')},1600); }
+  document.querySelectorAll('.swatch').forEach(function(s){
+    s.addEventListener('click',function(){
+      var hex=s.dataset.hex;
+      try{
+        navigator.clipboard.writeText(hex).then(function(){show('Disalin '+hex)},function(){show(hex)});
+      }catch(e){ show(hex); }
+    });
+  });
+})();
+</script>
