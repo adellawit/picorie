@@ -19,33 +19,71 @@
   .folder{position:absolute;width:144px;text-align:center}
   #stage .folder img{position:static;width:144px;height:98px}
   .folder span{display:block;margin-top:10px;font-weight:700;font-size:16px;color:#782b37;line-height:1}
-  #start{position:absolute;left:904px;top:412px;width:314px;cursor:pointer;border:0;background:none;padding:0;transition:transform .12s}
+  #start-wrap{position:absolute;left:904px;top:412px;width:314px}
+  #start{display:block;width:100%;cursor:pointer;border:0;background:none;padding:0;position:relative;border-radius:999px;overflow:hidden;transition:transform .12s}
   #stage #start img{position:static;width:314px}
   #start:hover{transform:translateY(-3px)}
   #start:active{transform:translateY(2px)}
+  #start::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.65) 50%,transparent 65%);background-size:260% 100%;background-position:130% 0;pointer-events:none;mix-blend-mode:soft-light}
+
+  /* --- life / motion --- */
+  @media (prefers-reduced-motion: no-preference){
+    @keyframes fadeIn{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    @keyframes reddieBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    @keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+    @keyframes shine{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.05) rotate(2deg)}}
+    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    @keyframes sweep{0%,18%{background-position:130% 0}55%,100%{background-position:-40% 0}}
+
+    #burst,#stage>*{animation-name:fadeIn;animation-duration:.7s;animation-timing-function:ease-out;animation-fill-mode:both}
+    #burst{animation-name:fadeIn,shine;animation-duration:.7s,7s;animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;animation-delay:0s,.7s}
+
+    .folder img{animation:floatY 3.6s ease-in-out infinite}
+    .folder:nth-of-type(1){animation-delay:.3s}
+    .folder:nth-of-type(2){animation-delay:.42s}
+    .folder:nth-of-type(3){animation-delay:.54s}
+    .folder:nth-of-type(4){animation-delay:.66s}
+    .folder:nth-of-type(1) img{animation-delay:0s}
+    .folder:nth-of-type(2) img{animation-delay:.25s}
+    .folder:nth-of-type(3) img{animation-delay:.5s}
+    .folder:nth-of-type(4) img{animation-delay:.75s}
+
+    #logo{animation-name:fadeIn,sway;animation-duration:.7s,5s;animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;animation-delay:.72s,1.4s;transform-origin:50% 100%}
+
+    #reddie-group{animation:fadeIn .8s ease-out .5s both}
+    /* body image bobs INSIDE its static clip window (the window edge never moves, so the
+       intentional crop against the browser frame stays put — only the art shifts a little) */
+    #reddie-body,#reddie-head{animation:reddieBob 4.6s ease-in-out 1.2s infinite}
+
+    #start-wrap{animation-name:fadeIn,breathe;animation-duration:.7s,2.6s;animation-timing-function:ease-out,ease-in-out;animation-iteration-count:1,infinite;animation-delay:.85s,1.55s}
+    #start::after{animation:sweep 3.6s ease-in-out infinite;animation-delay:2s}
+  }
 </style>
 </head>
 <body>
 <div id="viewport">
   <img id="burst" src="asset/ic_comic_star.png" alt="">
   <main id="stage">
-    <img src="asset/bg_pink.png" style="left:186px;top:85px;width:1548px">
-    <img src="asset/bg_white_onboarding.png" style="left:209px;top:183px;width:1502px">
-    <img src="asset/bg_yellow_navbar.png" style="left:209px;top:106px;width:1502px;height:78px" alt="">
-    <img src="asset/ic_indicator.png" style="left:249px;top:132px;width:112px">
-    <img src="asset/ic_search_text.png" style="left:639px;top:124px;width:710px">
-    <div class="search-text">Ready to make new memories?</div>
-    <img src="asset/ic_reddie_head.png" style="left:1626px;top:127px;width:43px">
+    <img src="asset/bg_pink.png" style="left:186px;top:85px;width:1548px;animation-delay:0s">
+    <img src="asset/bg_white_onboarding.png" style="left:209px;top:183px;width:1502px;animation-delay:.08s">
+    <img src="asset/bg_yellow_navbar.png" style="left:209px;top:106px;width:1502px;height:78px;animation-delay:.14s" alt="">
+    <img src="asset/ic_indicator.png" style="left:249px;top:132px;width:112px;animation-delay:.2s">
+    <img src="asset/ic_search_text.png" style="left:639px;top:124px;width:710px;animation-delay:.2s">
+    <div class="search-text" style="animation-delay:.24s">Ready to make new memories?</div>
+    <img src="asset/ic_reddie_head.png" style="left:1626px;top:127px;width:43px;animation-delay:.26s">
 
     <div class="folder" style="left:279px;top:253px"><img src="asset/ic_folder_pink.png" alt=""><span>reddie</span></div>
     <div class="folder" style="left:477px;top:253px"><img src="asset/ic_folder_beige.png" alt=""><span>reddie</span></div>
     <div class="folder" style="left:279px;top:431px"><img src="asset/ic_folder_maroon.png" alt=""><span>reddie</span></div>
     <div class="folder" style="left:477px;top:431px"><img src="asset/ic_folder_yellow.png" alt=""><span>reddie</span></div>
 
-    <img src="asset/ic_logo.png" style="left:281px;top:583px;width:620px" alt="Welcome to Picorie">
-    <div style="position:absolute;left:216px;top:190px;width:1488px;height:778px;overflow:hidden"><img src="asset/ic_reddie_fly.png" style="left:839px;top:183px;width:689px;height:618px" alt=""></div>
-    <img src="asset/ic_reddie_head_fly.png" style="left:1159px;top:198px;width:740px;height:744px" alt="Reddie">
-    <button id="start"><img src="asset/btn_start_photo.png" alt="Start Photobooth"></button>
+    <img id="logo" src="asset/ic_logo.png" style="left:281px;top:583px;width:620px" alt="Welcome to Picorie">
+    <div id="reddie-group" style="position:absolute;inset:0">
+      <div style="position:absolute;left:216px;top:190px;width:1488px;height:778px;overflow:hidden"><img id="reddie-body" src="asset/ic_reddie_fly.png" style="left:839px;top:183px;width:689px;height:618px" alt=""></div>
+      <img id="reddie-head" src="asset/ic_reddie_head_fly.png" style="left:1159px;top:198px;width:740px;height:744px" alt="Reddie">
+    </div>
+    <div id="start-wrap"><button id="start" onclick="location.href='choose-frame.html'"><img src="asset/btn_start_photo.png" alt="Start Photobooth"></button></div>
   </main>
 </div>
 <script>
