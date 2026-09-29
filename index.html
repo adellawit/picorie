@@ -9,12 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#f6f2eb}
-  #viewport{position:fixed;inset:0;overflow:hidden;
-    background:#f6f2eb url(asset/bg_onboarding.png) left bottom/cover no-repeat;
+  #viewport{position:fixed;inset:0;overflow:hidden;background:#f6f2eb;
     font-family:'Baloo 2',sans-serif;color:#782b37}
-  #burst{position:absolute;right:0;top:0;width:379px;transform-origin:top right}
   #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:center center}
   #stage img{position:absolute;display:block;max-width:none}
+  #burst{transform-origin:top right}
   .search-text{position:absolute;left:655px;top:124px;height:42px;line-height:42px;font-weight:700;font-size:18px;color:#782b37;white-space:nowrap}
   .folder{position:absolute;width:144px;text-align:center}
   #stage .folder img{position:static;width:144px;height:98px}
@@ -63,8 +62,9 @@
 </head>
 <body>
 <div id="viewport">
-  <img id="burst" src="asset/ic_comic_star.png" alt="">
   <main id="stage">
+    <img src="asset/bg_onboarding.png" style="left:0;top:0;width:1920px;height:1080px;animation-delay:0s" alt="">
+    <img id="burst" src="asset/ic_comic_star.png" style="left:1542px;top:-115px;width:515.85px;animation-delay:0s" alt="">
     <img src="asset/bg_pink.png" style="left:186px;top:85px;width:1548px;animation-delay:0s">
     <img src="asset/bg_white_onboarding.png" style="left:209px;top:183px;width:1502px;animation-delay:.08s">
     <img src="asset/bg_yellow_navbar.png" style="left:209px;top:106px;width:1502px;height:78px;animation-delay:.14s" alt="">
@@ -88,10 +88,8 @@
 </div>
 <script>
   function fit(){
-    var s=Math.max(innerWidth/1920,innerHeight/1080);
     var c=Math.min(innerWidth/1920,innerHeight/1080);
     document.getElementById('stage').style.transform='scale('+c+')';
-    document.getElementById('burst').style.transform='scale('+s+')';
   }
   addEventListener('resize',fit);fit();
 </script>

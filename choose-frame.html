@@ -21,12 +21,11 @@
     --scrollbar:#c06878;
   }
   html,body{margin:0;height:100%;overflow:hidden;background:var(--cream)}
-  #viewport{position:fixed;inset:0;overflow:hidden;
-    background:var(--cream) url('asset/asset choose frame/Onboarding.png') left bottom/cover no-repeat;
+  #viewport{position:fixed;inset:0;overflow:hidden;background:var(--cream);
     font-family:'Baloo 2',sans-serif;color:var(--maroon)}
-  #burst{position:absolute;right:0;top:0;width:379px;transform-origin:top right}
   #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:center center}
   #stage img{position:absolute;display:block;max-width:none}
+  #burst{transform-origin:top right}
   button{font-family:inherit;cursor:pointer}
 
   /* tab bar */
@@ -53,7 +52,7 @@
   .panel.active{display:block}
 
   .frame-card{position:absolute;border:3px solid transparent;border-radius:18px;padding:0;background:none;cursor:pointer;overflow:hidden}
-  .frame-card img{position:static;width:100%;height:100%;object-fit:cover;display:block;border-radius:14px}
+  .frame-card img{position:static;width:100%;height:100%;object-fit:contain;background:#fff;display:block;border-radius:14px}
   .frame-card.selected{border-color:var(--red)}
 
   .layout-card{position:absolute;background:#fff;border:3px solid var(--maroon);border-radius:28px;box-sizing:border-box;
@@ -81,7 +80,7 @@
   .side h2{margin:0;font-family:'Baloo 2';font-weight:800;font-size:58px;line-height:65px;letter-spacing:2px;color:var(--red);
     text-transform:uppercase;text-align:center;text-shadow:2px 3px 0 #3a1015,-1px 0 0 #3a1015,0 -1px 0 #3a1015;}
   .side .preview{width:304px;height:457px;border-radius:16px;overflow:hidden;background:#fff}
-  .side .preview img{width:100%;height:100%;object-fit:cover;display:block}
+  .side .preview img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
   .side .preview.layout-card{position:static;width:290px;height:457px}
 
   .btn-next{width:100%;background:var(--yellow);border:8px solid var(--yellow-dark);border-radius:999px;
@@ -93,8 +92,9 @@
 </head>
 <body>
 <div id="viewport">
-  <img id="burst" src="asset/asset choose frame/ic_comic star.png" alt="">
   <main id="stage">
+    <img src="asset/asset choose frame/Onboarding.png" style="left:0;top:0;width:1920px;height:1080px" alt="">
+    <img id="burst" src="asset/asset choose frame/ic_comic star.png" style="left:1542px;top:-115px;width:515.85px" alt="">
     <img src="asset/asset choose frame/bg_pink.png" style="left:186px;top:114px;width:1548px">
 
     <button id="tab-choose" class="tab"><img alt="Choose Frame"></button>
@@ -293,10 +293,8 @@
 
   /* ---- fit to viewport ---- */
   function fit(){
-    var s=Math.max(innerWidth/1920, innerHeight/1080);
     var c=Math.min(innerWidth/1920, innerHeight/1080);
     document.getElementById('stage').style.transform='scale('+c+')';
-    document.getElementById('burst').style.transform='scale('+s+')';
   }
   addEventListener('resize', fit);
 
