@@ -4,306 +4,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Picorie Photobooth — Choose Frame</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --maroon:#782b37;
-    --pink:#f6b9c0;
-    --cream:#f8f4ed;
-    --yellow:#fece4e;
-    --yellow-dark:#edac00;
-    --yellow-shadow:#c98f00;
-    --tab-active:#fcc86a;
-    --tab-inactive:#ffe6a4;
-    --red:#eb5c5d;
-    --scrollbar:#c06878;
-  }
-  html,body{margin:0;height:100%;overflow:hidden;background:var(--cream)}
-  #viewport{position:fixed;inset:0;overflow:hidden;background:var(--cream);
-    font-family:'Baloo 2',sans-serif;color:var(--maroon)}
+  :root{ --red:#eb5c5d; --maroon:#782b37; }
+  html,body{margin:0;height:100%;overflow:hidden;background:#f6f2eb}
+  #viewport{position:fixed;inset:0;overflow:hidden;background:#f6f2eb}
   #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:center center}
-  #stage img{position:absolute;display:block;max-width:none}
-  #burst{transform-origin:top right}
-  button{font-family:inherit;cursor:pointer}
-
-  /* tab bar */
-  .tab{position:absolute;top:77px;width:auto;height:68px;border:0;background:none;padding:0}
-  .tab img{position:static;height:68px;width:auto;display:block}
-  #tab-choose{left:211px;z-index:3}
-  #tab-create{left:481px;z-index:2}
-  #tab-add{left:774px;z-index:1;cursor:default}
-
-  /* navbar */
-  #navbar{position:absolute;left:211px;top:145px;width:1498px;height:73px;box-sizing:border-box;
-    background:var(--yellow);border:5px solid var(--maroon);border-top:0;border-radius:0 54px 0 0;
-    display:flex;align-items:center;justify-content:space-between;padding:0 35px}
-  #navbar .icons{position:static;height:26px;width:auto}
-  .search-pill{position:relative;width:560px;height:42px;flex:none}
-  .search-pill img{position:static;width:100%;height:100%}
-  .search-pill span{position:absolute;left:22px;top:50%;transform:translateY(-50%);font-weight:700;font-size:18px;color:var(--maroon);line-height:1}
-  #navbar .avatar{position:static;width:43px;height:36px}
-
-  /* canvas */
-  #canvas{position:absolute;left:211px;top:218px;width:1498px;height:763px;box-sizing:border-box;
-    background:#fff;border:5px solid var(--maroon);border-top:0;border-radius:0 0 54px 54px;overflow:hidden}
-  .panel{position:absolute;inset:0;display:none}
-  .panel.active{display:block}
-
-  .frame-card{position:absolute;border:3px solid transparent;border-radius:20px 16px 22px 15px;padding:0;background:none;cursor:pointer;overflow:hidden;
-    box-shadow:1px 2px 0 rgba(120,43,55,.18)}
-  .frame-card img{position:static;width:100%;height:100%;object-fit:contain;background:#fff;display:block;border-radius:16px 13px 18px 12px}
-  .frame-card.selected{border-color:var(--red);box-shadow:1px 2px 0 rgba(120,43,55,.18),0 0 0 1px var(--red)}
-
-  .layout-card{position:absolute;background:#fff;border:3px solid var(--maroon);border-radius:30px 26px 32px 24px;box-sizing:border-box;
-    padding:20px;display:flex;flex-direction:column;gap:14px;align-items:center;cursor:pointer;box-shadow:2px 3px 0 rgba(120,43,55,.15)}
-  .layout-card.selected{border-color:var(--red);box-shadow:2px 3px 0 rgba(120,43,55,.15),0 0 0 2px var(--red)}
-  .layout-inner{flex:1;width:100%;min-height:0;border-radius:20px;border:1px solid #e2e8f0;padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px}
-  .layout-inner.grid2{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px}
-  .layout-inner.pillbox{background:#fff;border:1px solid #d2d2d7;border-radius:8px;box-shadow:0 4px 5px rgba(0,0,0,.04);gap:6px}
-  .lrow{flex:1;min-height:0;display:flex;gap:8px}
-  .lrow.pillrow{gap:6px}
-  .lcell{flex:1;background:#f2f2f7;border-radius:16px}
-  .lcell.pill{border-radius:999px}
-  .lcell.rectsm{border-radius:4px}
-  .layout-card h4{margin:0;font-family:'Poppins';font-weight:700;font-size:24px;color:#0f172a}
-  .layout-card small{font-family:'Poppins';font-weight:500;font-size:16px;color:#64748b}
-
-  #scrollbar-track{position:absolute;left:1062.5px;top:-2.5px;width:15px;height:807px;background:#fafafa;border:1px solid var(--maroon);box-sizing:border-box}
-  #scrollbar-track .thumb{position:absolute;left:1px;top:1px;width:13px;height:363px;border-radius:24px;background:var(--scrollbar)}
-
-  .grid-scroll{position:absolute;left:0;top:0;width:1078px;height:763px;overflow-y:auto;overflow-x:hidden;
-    scrollbar-width:none;-ms-overflow-style:none}
-  .grid-scroll::-webkit-scrollbar{display:none}
-
-  .side{position:absolute;left:1134.5px;top:50%;transform:translateY(-50%);width:304px;display:flex;flex-direction:column;align-items:center;gap:24px}
-  .side h2{margin:0;font-family:'Baloo 2';font-weight:800;font-size:58px;line-height:65px;letter-spacing:2px;color:var(--red);
-    text-transform:uppercase;text-align:center;text-shadow:2px 3px 0 #3a1015,-1px 0 0 #3a1015,0 -1px 0 #3a1015;}
-  .side .preview{width:304px;height:457px;border-radius:16px;overflow:hidden;background:#fff}
-  .side .preview img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
-  .side .preview.layout-card{position:static;width:290px;height:457px}
-
-  .btn-next{width:100%;border:0;background:none;padding:0;display:block;cursor:pointer;transition:transform .12s}
-  .btn-next img{position:static;display:block;width:100%;height:auto}
-  .btn-next:hover{transform:translateY(-2px)}
-  .btn-next:active{transform:translateY(1px)}
+  #stage img{position:absolute;display:block;max-width:none;left:0;top:0;width:1920px;height:1080px}
+  .hot{position:absolute;border:0;background:transparent;padding:0;margin:0;cursor:pointer}
+  .card-hot{position:absolute;border:0;background:transparent;padding:0;margin:0;cursor:pointer;border-radius:16px}
+  .sel-border{position:absolute;border:4px solid var(--red);border-radius:18px;pointer-events:none;box-sizing:border-box}
+  .preview-crop{position:absolute;background-repeat:no-repeat;border-radius:14px;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.04)}
+  .next-hot{position:absolute;border:0;background:transparent;padding:0;margin:0;cursor:pointer}
 </style>
 </head>
 <body>
 <div id="viewport">
   <main id="stage">
-    <img src="asset/asset choose frame/Onboarding.png" style="left:0;top:0;width:1920px;height:1080px" alt="">
-    <img id="burst" src="asset/asset choose frame/ic_comic star.png" style="left:1542px;top:-115px;width:515.85px" alt="">
-    <img src="asset/asset choose frame/bg_pink.png" style="left:186px;top:114px;width:1548px">
-
-    <button id="tab-choose" class="tab"><img alt="Choose Frame"></button>
-    <button id="tab-create" class="tab"><img alt="Create Template"></button>
-    <button id="tab-add" class="tab"><img src="asset/asset choose frame/tab_add_content.png" alt=""></button>
-
-    <div id="navbar">
-      <img class="icons" src="asset/asset choose frame/ic_refresh.png" alt="">
-      <div class="search-pill">
-        <img src="asset/asset choose frame/bg_search_bar_small.png" alt="">
-        <span>Ready to make new memories?</span>
-      </div>
-      <img class="avatar" src="asset/asset choose frame/ic_reddie.png" alt="Reddie">
-    </div>
-
-    <div id="canvas">
-      <!-- Choose Frame panel -->
-      <div id="panel-choose" class="panel active">
-        <div id="frame-grid" class="grid-scroll"></div>
-        <div id="scrollbar-track-1" class="scrollbar-track"></div>
-        <div class="side">
-          <h2>Selected Frame</h2>
-          <div class="preview"><img id="frame-preview-img" alt="Selected frame"></div>
-          <button class="btn-next" id="btn-choose-next"><img src="asset/asset choose frame/btn_next.png" alt="Next"></button>
-        </div>
-      </div>
-
-      <!-- Create Template panel -->
-      <div id="panel-create" class="panel">
-        <div id="layout-grid" class="grid-scroll"></div>
-        <div id="scrollbar-track-2" class="scrollbar-track"></div>
-        <div class="side">
-          <h2>Selected Frame</h2>
-          <div id="layout-preview" class="layout-card preview"></div>
-          <button class="btn-next" id="btn-create-next"><img src="asset/asset choose frame/btn_next.png" alt="Next"></button>
-        </div>
-      </div>
-    </div>
+    <img id="bgShot" src="asset/choose-frame/screen_choose.png" alt="">
+    <button class="hot" id="tab-choose-hot" style="left:211px;top:76px;width:270px;height:68px" title="Choose Frame"></button>
+    <button class="hot" id="tab-create-hot" style="left:481px;top:76px;width:293px;height:68px" title="Create Template"></button>
+    <div id="overlayLayer"></div>
   </main>
 </div>
 <script>
 (function(){
   "use strict";
-  var FRAMES = [
-    {id:'green', name:'Tomato Garden', img:'asset/asset choose frame/frame_greentomato.png'},
-    {id:'purple', name:'Purple Night', img:'asset/asset choose frame/frame_purplecat.png'},
-    {id:'red', name:'Red Stars', img:'asset/asset choose frame/frame_redstar.png'}
-  ];
-  var FRAME_POS = [
-    {x:29.5, y:29.5, w:304, h:455}, {x:378.5, y:29.5, w:304, h:458}, {x:726.5, y:29.5, w:304, h:458},
-    {x:29.5, y:522.5, w:304, h:455}, {x:378.5, y:521.5, w:304, h:458}, {x:726.5, y:522.5, w:304, h:458}
-  ];
-  var FRAME_ORDER = [0,1,2,0,1,2]; // which FRAMES index sits in each grid slot
+  var BG = {
+    choose: 'asset/choose-frame/screen_choose.png',
+    create: 'asset/choose-frame/screen_create.png'
+  };
+  var CARDS = {
+    choose: {
+      w:304, h:458,
+      pos:[[238,242],[583,242],[928,242],[238,718],[583,718],[928,718]],
+      preview:{x:1345,y:402,w:304,h:458},
+      next:{x:1345,y:885,w:306,h:63}
+    },
+    create: {
+      w:304, h:480,
+      pos:[[242,225],[592,225],[940,225],[242,752],[592,752],[940,752]],
+      preview:{x:1355,y:383,w:290,h:452},
+      next:{x:1355,y:858,w:290,h:60}
+    }
+  };
 
-  var LAYOUTS = [
-    {id:'A', label:'Layout A', pose:'2 Pose', style:'simple', rows:2},
-    {id:'B', label:'Layout B', pose:'3 Pose', style:'simple', rows:3},
-    {id:'C', label:'Layout C', pose:'4 Pose', style:'grid2'},
-    {id:'E1', label:'Layout E', pose:'5 Pose', style:'pill', pattern:[['pill','rect'],['pill','rect'],['pill','rect']]},
-    {id:'E2', label:'Layout E', pose:'5 Pose', style:'pill', pattern:[['pill','rect'],['rect','pill'],['rect','rect']]},
-    {id:'E3', label:'Layout E', pose:'5 Pose', style:'pill', pattern:[['pill','rect'],['rect','rect'],['rect','pill']]}
-  ];
-  var LAYOUT_POS = [
-    {x:29.5, y:29.5}, {x:377.5, y:29.5}, {x:725.5, y:29.5},
-    {x:29.5, y:557.5}, {x:377.5, y:557.5}, {x:725.5, y:557.5}
-  ];
-  var LAYOUT_W = 304, LAYOUT_H = 480;
-
-  var state = { tab:'choose', selectedFrame:2, selectedLayout:3 }; // default: red frame, Layout E1
+  var state = { tab:'choose', selected:{choose:null, create:null} };
 
   function $(s){return document.querySelector(s);}
-  function $all(s){return Array.prototype.slice.call(document.querySelectorAll(s));}
 
-  /* ---- tabs ---- */
-  function renderTabs(){
-    $('#tab-choose img').src = state.tab==='choose'
-      ? 'asset/asset choose frame/tab_active_content.png'
-      : 'asset/asset choose frame/tab_choose_inactive.png';
-    $('#tab-create img').src = state.tab==='create'
-      ? 'asset/asset choose frame/tab_active_content2.png'
-      : 'asset/asset choose frame/tab_inactive_content.png';
-    $('#tab-choose').style.zIndex = state.tab==='choose' ? 3 : 2;
-    $('#tab-create').style.zIndex = state.tab==='create' ? 3 : 2;
-    $('#panel-choose').classList.toggle('active', state.tab==='choose');
-    $('#panel-create').classList.toggle('active', state.tab==='create');
-    if(state.updateScrollbars) state.updateScrollbars();
-  }
-  $('#tab-choose').addEventListener('click', function(){ state.tab='choose'; renderTabs(); });
-  $('#tab-create').addEventListener('click', function(){ state.tab='create'; renderTabs(); });
+  function render(){
+    $('#bgShot').src = BG[state.tab];
+    var cfg = CARDS[state.tab];
+    var layer = $('#overlayLayer');
+    layer.innerHTML = '';
 
-  /* ---- choose-frame grid ---- */
-  function buildFrameGrid(){
-    var grid = $('#frame-grid');
-    FRAME_POS.forEach(function(pos, i){
-      var f = FRAMES[FRAME_ORDER[i]];
-      var card = document.createElement('button');
-      card.className = 'frame-card';
-      card.style.left = pos.x+'px'; card.style.top = pos.y+'px';
-      card.style.width = pos.w+'px'; card.style.height = pos.h+'px';
-      card.innerHTML = '<img src="'+f.img+'" alt="'+f.name+'">';
-      card.dataset.frame = FRAME_ORDER[i];
-      card.addEventListener('click', function(){
-        state.selectedFrame = FRAME_ORDER[i];
-        renderFrameSelection();
-      });
-      grid.appendChild(card);
+    cfg.pos.forEach(function(p, i){
+      var btn = document.createElement('button');
+      btn.className = 'card-hot';
+      btn.style.left = p[0]+'px'; btn.style.top = p[1]+'px';
+      btn.style.width = cfg.w+'px'; btn.style.height = cfg.h+'px';
+      btn.title = 'Pilih frame ini';
+      btn.addEventListener('click', (function(idx){
+        return function(){ state.selected[state.tab] = idx; render(); };
+      })(i));
+      layer.appendChild(btn);
     });
-  }
-  function renderFrameSelection(){
-    $all('.frame-card').forEach(function(c){
-      c.classList.toggle('selected', parseInt(c.dataset.frame,10)===state.selectedFrame);
-    });
-    $('#frame-preview-img').src = FRAMES[state.selectedFrame].img;
-  }
 
-  /* ---- create-template grid ---- */
-  function layoutInnerHTML(layout){
-    if(layout.style==='simple'){
-      var rows='';
-      for(var i=0;i<layout.rows;i++) rows += '<div class="lcell" style="flex:1"></div>';
-      return '<div class="layout-inner">'+rows+'</div>';
+    var sel = state.selected[state.tab];
+    if(sel !== null){
+      var p = cfg.pos[sel];
+      var border = document.createElement('div');
+      border.className = 'sel-border';
+      border.style.left = (p[0]-4)+'px'; border.style.top=(p[1]-4)+'px';
+      border.style.width=(cfg.w)+'px'; border.style.height=(cfg.h)+'px';
+      layer.appendChild(border);
+
+      var prev = document.createElement('div');
+      prev.className = 'preview-crop';
+      prev.style.left = cfg.preview.x+'px'; prev.style.top = cfg.preview.y+'px';
+      prev.style.width = cfg.preview.w+'px'; prev.style.height = cfg.preview.h+'px';
+      prev.style.backgroundImage = 'url("'+BG[state.tab]+'")';
+      prev.style.backgroundSize = '1920px 1080px';
+      prev.style.backgroundPosition = '-'+p[0]+'px -'+p[1]+'px';
+      layer.appendChild(prev);
     }
-    if(layout.style==='grid2'){
-      return '<div class="layout-inner grid2">'+
-        '<div class="lcell"></div><div class="lcell"></div><div class="lcell"></div><div class="lcell"></div></div>';
-    }
-    // pill style
-    var rows2 = layout.pattern.map(function(row){
-      var cells = row.map(function(shape){
-        return '<div class="lcell '+(shape==='pill'?'pill':'rectsm')+'"></div>';
-      }).join('');
-      return '<div class="lrow pillrow">'+cells+'</div>';
-    }).join('');
-    return '<div class="layout-inner pillbox">'+rows2+'</div>';
-  }
 
-  function buildLayoutGrid(){
-    var grid = $('#layout-grid');
-    LAYOUT_POS.forEach(function(pos, i){
-      var layout = LAYOUTS[i];
-      var card = document.createElement('button');
-      card.className = 'layout-card';
-      card.style.left = pos.x+'px'; card.style.top = pos.y+'px';
-      card.style.width = LAYOUT_W+'px'; card.style.height = LAYOUT_H+'px';
-      card.dataset.layout = i;
-      card.innerHTML = layoutInnerHTML(layout) +
-        '<div><h4>'+layout.label+'</h4><small>'+layout.pose+'</small></div>';
-      card.addEventListener('click', function(){
-        state.selectedLayout = i;
-        renderLayoutSelection();
-      });
-      grid.appendChild(card);
+    var nextBtn = document.createElement('button');
+    nextBtn.className = 'next-hot';
+    nextBtn.style.left = cfg.next.x+'px'; nextBtn.style.top = cfg.next.y+'px';
+    nextBtn.style.width = cfg.next.w+'px'; nextBtn.style.height = cfg.next.h+'px';
+    nextBtn.title = 'Next';
+    nextBtn.addEventListener('click', function(){
+      console.log('Next clicked, tab=', state.tab, 'selected=', state.selected[state.tab]);
     });
-  }
-  function renderLayoutSelection(){
-    $all('#layout-grid .layout-card').forEach(function(c){
-      c.classList.toggle('selected', parseInt(c.dataset.layout,10)===state.selectedLayout);
-    });
-    var layout = LAYOUTS[state.selectedLayout];
-    $('#layout-preview').innerHTML = layoutInnerHTML(layout) +
-      '<div><h4>'+layout.label+'</h4><small>'+layout.pose+'</small></div>';
+    layer.appendChild(nextBtn);
   }
 
-  /* ---- scrollbar decoration, synced to the real scroll position ---- */
-  function wireScrollbar(trackSel, scrollSel){
-    var track = $(trackSel), scroller = $(scrollSel);
-    track.innerHTML = '<div class="thumb"></div>';
-    var thumb = track.querySelector('.thumb');
-    function update(){
-      var max = scroller.scrollHeight - scroller.clientHeight;
-      var trackH = track.clientHeight;
-      var thumbH = Math.max(60, trackH * (scroller.clientHeight / scroller.scrollHeight));
-      var travel = trackH - thumbH;
-      var pos = max > 0 ? (scroller.scrollTop / max) * travel : 0;
-      thumb.style.height = thumbH + 'px';
-      thumb.style.top = pos + 'px';
-      track.style.display = max > 0 ? '' : 'none';
-    }
-    scroller.addEventListener('scroll', update);
-    update();
-    return update;
-  }
-  function placeScrollbars(){
-    var u1 = wireScrollbar('#scrollbar-track-1', '#frame-grid');
-    var u2 = wireScrollbar('#scrollbar-track-2', '#layout-grid');
-    return function(){ u1(); u2(); };
-  }
+  $('#tab-choose-hot').addEventListener('click', function(){ state.tab='choose'; render(); });
+  $('#tab-create-hot').addEventListener('click', function(){ state.tab='create'; render(); });
 
-  /* ---- next buttons ---- */
-  $('#btn-choose-next').addEventListener('click', function(){
-    console.log('Selected preset frame:', FRAMES[state.selectedFrame].id);
-  });
-  $('#btn-create-next').addEventListener('click', function(){
-    console.log('Selected layout:', LAYOUTS[state.selectedLayout].id);
-  });
-
-  /* ---- fit to viewport ---- */
   function fit(){
-    var c=Math.min(innerWidth/1920, innerHeight/1080);
-    document.getElementById('stage').style.transform='scale('+c+')';
+    var c = Math.min(innerWidth/1920, innerHeight/1080);
+    $('#stage').style.transform = 'scale('+c+')';
   }
   addEventListener('resize', fit);
 
-  buildFrameGrid();
-  buildLayoutGrid();
-  state.updateScrollbars = placeScrollbars();
-  renderFrameSelection();
-  renderLayoutSelection();
-  renderTabs();
+  render();
   fit();
 })();
 </script>
